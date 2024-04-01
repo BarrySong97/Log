@@ -9,7 +9,7 @@ const Blogs: FC<BlogsProps> = () => {
     updatedAt: new Date(),
   }));
   return (
-    <div className=" max-w-5xl  w-full py-8 pb-4  px-16">
+    <div className="scrollElement max-w-5xl  w-full py-8 pb-4  px-16">
       <div className="font-bold text-2xl mb-4">共 {articles.length} 篇文章</div>
       {articles.map((article) => (
         <div

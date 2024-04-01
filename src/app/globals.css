@@ -3,6 +3,9 @@
 
 @tailwind utilities;
 
+.body {
+    overflow: auto;
+}
 
 .scrollbar::-webkit-scrollbar {
     background-color: transparent;

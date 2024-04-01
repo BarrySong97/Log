@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 export type AppLayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
