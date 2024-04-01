@@ -6,6 +6,7 @@ interface UseScrollFunctions {
   scrollToTop: () => void;
   scrollToBottom: () => void;
   isAtTop: boolean;
+  scrollTop: number;
   isAtBottom: boolean;
 }
 
@@ -15,7 +16,7 @@ function useScrollFunctions(
 ): UseScrollFunctions {
   const [isAtTop, setIsAtTop] = useState<boolean>(false);
   const [isAtBottom, setIsAtBottom] = useState<boolean>(false);
-
+  const [scrollTop, setScrollTop] = useState<number>(0);
   useEffect(() => {
     const handleScroll = () => {
       const element = document.documentElement!;
@@ -23,6 +24,7 @@ function useScrollFunctions(
       const scrollTop = element.scrollTop;
       const scrollHeight = element.scrollHeight;
       const clientHeight = element.clientHeight;
+      setScrollTop(scrollTop);
 
       // 检查是否滚动到了顶部
       if (scrollTop < topThreshold) {
@@ -47,12 +49,20 @@ function useScrollFunctions(
     };
   }, []);
   const scrollToTop = () => {
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
-  const scrollToBottom = () => window.scrollTo(0, document.body.scrollHeight);
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  };
 
-  return { scrollToTop, scrollToBottom, isAtTop, isAtBottom };
+  return { scrollTop, scrollToTop, scrollToBottom, isAtTop, isAtBottom };
 }
 
 export default useScrollFunctions;
