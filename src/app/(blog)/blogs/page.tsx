@@ -1,9 +1,6 @@
 import React, { FC } from "react";
-import dayjs from "dayjs";
 import { Image } from "@nextui-org/react";
 import Link from "next/link";
-import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
-import { SolarCalendarLinear } from "@/assets/icon";
 export interface BlogsProps {}
 const Blogs: FC<BlogsProps> = () => {
   const articles = new Array(100).fill("").map((_, i) => ({

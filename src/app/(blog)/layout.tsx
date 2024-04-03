@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { Providers } from "./providers";
-import { Link } from "@nextui-org/react";
-import LayoutHeader from "../components/layout-header";
-import { usePathname } from "next/navigation";
-import AppLayout from "../components/app-layout";
-import BackToTopBottom from "../components/back-to-top-bottom";
+import "../globals.css";
+import { Providers } from "../providers";
+import LayoutHeader from "../../components/layout-header";
+import AppLayout from "../../components/app-layout";
+import BackToTopBottom from "../../components/back-to-top-bottom";
 
 const inter = Inter({ subsets: ["latin"] });
 
