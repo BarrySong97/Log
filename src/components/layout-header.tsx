@@ -5,13 +5,16 @@ import { Button, Link as NextUILink } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import React, { FC } from "react";
-import { MaterialSymbolsAddLocation } from "../../assets/icon";
-import { contactList } from "../contact";
+import React, { FC, useEffect, useRef } from "react";
+import { MaterialSymbolsAddLocation } from "../assets/icon";
+import { contactList } from "../app/contact";
+import { TextGenerateEffect } from "./ui/text-generate-effect";
+import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
 export interface LayoutHeaderProps {}
 const LayoutHeader: FC<LayoutHeaderProps> = () => {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  const preRouterRef = useRef<string>();
   const navMenu = [
     {
       title: "文章",
@@ -29,9 +32,15 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
       href: "/about",
     },
   ];
+  useEffect(() => {
+    if (preRouterRef.current !== pathname) {
+      preRouterRef.current = pathname;
+    }
+  }, [pathname]);
+
   return (
     <>
-      <div className="z-10 sticky top-0 backdrop-blur-lg py-4 backdrop-saturate-150 bg-background/70 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+      <div className="z-[100] sticky top-0 backdrop-blur-lg py-4 backdrop-saturate-150 bg-background/70 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <div className="items-center  fixed bottom-0 left-0 basis-[100%] flex h-48 w-full   justify-between bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
           <div className="flex items-center gap-4">
             {!isHomePage && (
@@ -39,7 +48,7 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
                 <motion.img
                   src="/blogger.jpg"
                   alt="blogger"
-                  layoutId="blogger"
+                  layoutId={"blogger"}
                   className={`object-cover rounded-full w-[48px] h-[48px] `}
                 />
               </Link>
@@ -118,7 +127,9 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
                   <span className="text-small text-default-500">贵州贵阳</span>
                 </div>
                 <div className="font-semibold ">
-                  正在远程的全栈偏前的软件工程师
+                  <TextGenerateEffect
+                    words={"正在远程的全栈偏前的软件工程师".split("").join(" ")}
+                  />
                 </div>
               </div>
               <div className="gap-4 flex items-center">
@@ -150,8 +161,8 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
                 </Button>
               </div>
             </div>
-            <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-2/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-              <div className="relative z-10">
+            <div className="relative  flex place-items-center  after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-2/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-['']  ">
+              <div className="relative pointer-events-auto  z-[999]">
                 <motion.img
                   src="/blogger.jpg"
                   alt="blogger"
@@ -164,25 +175,31 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
         </div>
       )}
       {isHomePage && (
-        <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left">
+        <div className="mb-32 grid text-center gap-4 lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left">
           {navMenu.map((item) => {
             return (
-              <Link
-                key={item.title}
-                href={item.href}
-                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                rel="noopener noreferrer"
-              >
-                <h2 className={`mb-3 text-2xl font-semibold`}>
-                  {item.title}
-                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                    -&gt;
-                  </span>
-                </h2>
-                <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                  {item.desc}
-                </p>
-              </Link>
+              <CardContainer className="inter-var w-full h-full">
+                <CardBody className="w-full">
+                  <CardItem translateZ="100" className="w-full">
+                    <Link
+                      key={item.title}
+                      href={item.href}
+                      className="group block rounded-lg  border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                      rel="noopener noreferrer"
+                    >
+                      <h2 className={`mb-3 text-2xl font-semibold`}>
+                        {item.title}
+                        <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                          -&gt;
+                        </span>
+                      </h2>
+                      <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+                        {item.desc}
+                      </p>
+                    </Link>
+                  </CardItem>
+                </CardBody>
+              </CardContainer>
             );
           })}
         </div>

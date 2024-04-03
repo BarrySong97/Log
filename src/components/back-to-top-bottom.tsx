@@ -1,6 +1,6 @@
 "use client";
 import React, { FC } from "react";
-import useScrollFunctions from "../hooks";
+import useScrollFunctions from "../app/hooks";
 import { Button } from "@nextui-org/react";
 import { SolarMapArrowDownBold, SolarMapArrowUpBold } from "@/assets/icon";
 export interface BackToTopBottomProps {}
