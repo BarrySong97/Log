@@ -154,7 +154,7 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
           </Listbox>
         </div>
       </div>
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 p-4">{children}</div>
     </main>
   );
 };

@@ -1,5 +1,7 @@
 import { Providers } from "../providers";
 import AdminLayout from "./admin/components/admin-layout";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+
 import "../globals.css";
 
 export const metadata = {
@@ -16,7 +18,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          <AdminLayout>{children}</AdminLayout>
+          <AdminLayout>
+            <AntdRegistry>{children}</AntdRegistry>
+          </AdminLayout>
         </Providers>
       </body>
     </html>
