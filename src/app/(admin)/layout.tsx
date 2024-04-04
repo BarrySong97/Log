@@ -1,5 +1,5 @@
 import { Providers } from "../providers";
-import AdminLayout from "./components/admin-layout";
+import AdminLayout from "./admin/components/admin-layout";
 import "../globals.css";
 
 export const metadata = {
