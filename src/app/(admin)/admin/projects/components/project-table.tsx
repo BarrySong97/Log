@@ -2,20 +2,30 @@
 import React, { FC, useState } from "react";
 import AppTable from "@/app/(admin)/admin/components/AppTable/app-table";
 import type { TableProps } from "antd";
-import { Post } from "@/app/api/model";
+import { Project } from "@/app/api/model";
 
 export interface PostsProps {}
-const PostTable: FC<PostsProps> = () => {
-  const columns: TableProps<Post>["columns"] = [
+const ProjectTable: FC<PostsProps> = () => {
+  const columns: TableProps<Project>["columns"] = [
     {
-      title: "标题",
+      title: "Icon",
+      dataIndex: "icon",
+      key: "icon",
+    },
+    {
+      title: "名称",
       dataIndex: "title",
       key: "title",
     },
     {
-      title: "Tag",
-      dataIndex: "tag",
-      key: "tag",
+      title: "描述",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "链接",
+      dataIndex: "link",
+      key: "link",
     },
     {
       title: "创建日期",
@@ -35,7 +45,7 @@ const PostTable: FC<PostsProps> = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const rowSelection = {
     selectedRowKeys,
-    onChange: (selectedRowKeys: React.Key[], selectedRows: Post[]) => {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: Project[]) => {
       setSelectedRowKeys(selectedRowKeys);
     },
   };
@@ -57,4 +67,4 @@ const PostTable: FC<PostsProps> = () => {
   );
 };
 
-export default PostTable;
+export default ProjectTable;
