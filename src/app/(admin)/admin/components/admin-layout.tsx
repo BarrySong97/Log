@@ -1,15 +1,21 @@
 "use client";
 import { Listbox, ListboxItem, User } from "@nextui-org/react";
-import React, { FC } from "react";
+import "./index.css";
+import React, { FC, useState } from "react";
 import { cn } from "@nextui-org/react";
 import {
+  SolarAddSquareBold,
+  SolarAddSquareLinear,
   SolarBook2Broken,
+  SolarHamburgerMenuLineDuotone,
+  SolarHashtagBold,
   SolarHomeAngle2Linear,
   SolarLogout2Broken,
   SolarMonitorSmartphoneOutline,
   SolarSettingsBroken,
 } from "@/assets/icon";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu } from "antd";
 
 export const IconWrapper = ({
   children,
@@ -34,18 +40,38 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
   const menuItem = [
     {
       label: "仪表盘",
+      key: "/admin/dashboard",
       icon: <SolarHomeAngle2Linear />,
       href: "/admin/dashboard",
-      showCount: false,
     },
     {
       label: "文章",
+      key: "2",
       icon: <SolarBook2Broken />,
-      href: "/admin/posts",
-      showCount: true,
+      children: [
+        {
+          label: "文章列表",
+          key: "/admin/posts",
+          href: "/admin/posts",
+          icon: <SolarHamburgerMenuLineDuotone />,
+        },
+        {
+          label: "新文章",
+          key: "/admin/posts/new",
+          icon: <SolarAddSquareLinear />,
+          href: "/admin/posts/new",
+        },
+        {
+          label: "Tag管理",
+          href: "/admin/posts/tags",
+          icon: <SolarHashtagBold />,
+          key: "/admin/posts/tags",
+        },
+      ],
     },
     {
       label: "项目",
+      key: "/admin/projects",
       icon: <SolarMonitorSmartphoneOutline />,
       href: "/admin/projects",
       showCount: true,
@@ -53,6 +79,7 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
     {
       label: "设置",
       icon: <SolarSettingsBroken />,
+      key: "/admin/setting",
       href: "/admin/setting",
       showCount: false,
     },
@@ -60,12 +87,14 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
   const bottomMenu = [
     {
       label: "注销",
+      key: "1",
       icon: <SolarLogout2Broken />,
     },
   ];
+  // relace所有url query
   const pathname = usePathname();
 
-  const selectKeys = new Set([pathname]);
+  const router = useRouter();
   return (
     <main className="flex h-dvh w-full">
       <div className="relative flex h-full  justify-between max-w-[288px] flex-1 flex-col !border-r-small border-divider p-6 transition-[transform,opacity,margin] duration-250 ease-in-out">
@@ -83,75 +112,23 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
               }}
             />
           </div>
-          <div>
-            <Listbox
-              aria-label="User Menu"
-              selectedKeys={selectKeys}
-              selectionMode="single"
-              disallowEmptySelection
-              shouldHighlightOnFocus
-              shouldFocusWrap
-              hideSelectedIcon
-              className="p-0 mt-4 gap-0 divide-y divide-default-300/50 dark:divide-default-100/80 bg-content1 max-w-[300px] overflow-visible  rounded-medium"
-              itemClasses={{
-                base: "px-2 py-1.5   gap-1 h-12 aria-[selected=true]:bg-default-100/80 data-[hover=true]:bg-default-100/80 aria-[selected=true]:text-default-foreground  data-[hover=true]:text-default-foreground data-[selectable=true]:focus:bg-default/40 data-[selectable=true]:focus:text-default-foreground min-h-11",
+          <div className="mt-4">
+            <Menu
+              style={{ width: 256 }}
+              mode="inline"
+              selectedKeys={[pathname]}
+              defaultOpenKeys={["2"]}
+              onSelect={({ key }) => {
+                if (key !== "2") {
+                  router.push(key);
+                }
               }}
-            >
-              {menuItem.map((menu) => {
-                return (
-                  <ListboxItem
-                    key={menu.href}
-                    as={"a"}
-                    href={menu.href}
-                    className="font-medium text-default-500"
-                    endContent={
-                      menu.showCount ? (
-                        <div className="flex items-center gap-1 text-default-400 font-normal">
-                          <span className="text-small">{4}</span>
-                        </div>
-                      ) : null
-                    }
-                    startContent={
-                      <IconWrapper className="text-2xl">
-                        {menu.icon}
-                      </IconWrapper>
-                    }
-                  >
-                    {menu.label}
-                  </ListboxItem>
-                );
-              })}
-            </Listbox>
+              items={menuItem}
+            />
           </div>
         </div>
         <div>
-          <Listbox
-            aria-label="User Menu"
-            selectedKeys={selectKeys}
-            selectionMode="single"
-            disallowEmptySelection
-            shouldHighlightOnFocus
-            shouldFocusWrap
-            hideSelectedIcon
-            className="p-0 mt-4 gap-0 divide-y divide-default-300/50 dark:divide-default-100/80 bg-content1 max-w-[300px] overflow-visible  rounded-medium"
-            itemClasses={{
-              base: "px-2 py-1.5   gap-1 h-12 aria-[selected=true]:bg-default-100/80 data-[hover=true]:bg-default-100/80 aria-[selected=true]:text-default-foreground  data-[hover=true]:text-default-foreground data-[selectable=true]:focus:bg-default/40 data-[selectable=true]:focus:text-default-foreground min-h-11",
-            }}
-          >
-            {bottomMenu.map((menu) => {
-              return (
-                <ListboxItem
-                  key={menu.label}
-                  className="font-medium text-default-500"
-                  startContent={
-                    <IconWrapper className="text-2xl">{menu.icon}</IconWrapper>
-                  }
-                >
-                  {menu.label}
-                </ListboxItem>
-              );
-            })}
-          </Listbox>
+          <Menu mode="inline" items={bottomMenu} />
         </div>
       </div>
       <div className="flex-1 p-4">{children}</div>

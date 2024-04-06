@@ -1,0 +1,44 @@
+.ant-menu-item {
+    padding-left: 8px !important;
+}
+
+.ant-menu-submenu-title {
+
+    padding-left: 8px !important;
+}
+
+.ant-menu-sub .ant-menu-item {
+    padding-left: 48px !important;
+}
+
+.ant-menu-item-active {
+    @apply !bg-default-100/80
+}
+.ant-menu-item-selected {
+  @apply !bg-default-100/80 !text-default-foreground 
+}
+.ant-menu-submenu-selected .ant-menu-submenu-title .ant-menu-title-content {
+
+  @apply  !text-default-foreground 
+}
+.ant-menu-submenu-title:active {
+
+  @apply !bg-default-100/80
+}
+.ant-menu-sub {
+    @apply !bg-white
+}
+.ant-menu-item-icon {
+    @apply  !text-xl 
+}
+.ant-menu-submenu-title .ant-menu-item-icon {
+
+  @apply  !text-default-foreground 
+}
+.ant-menu-submenu-arrow {
+
+  @apply  !text-default-foreground 
+}
+.ant-menu {
+    border: none !important;
+}

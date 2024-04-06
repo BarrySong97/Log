@@ -4,6 +4,7 @@ import "./index.css";
 import { Table } from "antd";
 import type { TableProps } from "antd";
 import { Checkbox, Pagination } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 export type AppTableProps = TableProps;
 const AppTable: FC<AppTableProps> = ({
@@ -14,7 +15,7 @@ const AppTable: FC<AppTableProps> = ({
   ...props
 }) => {
   const { onHeaderRow } = props;
-  console.log(pagination);
+  const router = useRouter();
 
   return (
     <div className="p-4 z-0 flex items-center flex-col relative justify-between gap-4 bg-content1 overflow-auto rounded-large shadow-small w-full">
@@ -83,7 +84,10 @@ const AppTable: FC<AppTableProps> = ({
             (pagination?.total ?? 0) / (pagination?.pageSize ?? 10)
           )}
           initialPage={1}
-          onChange={(p) => pagination?.onChange?.(p, pagination.pageSize ?? 10)}
+          onChange={(p) => {
+            pagination?.onChange?.(p, pagination.pageSize ?? 10);
+            router.replace(`?page=${p}`);
+          }}
           page={pagination.current}
         />
       ) : null}

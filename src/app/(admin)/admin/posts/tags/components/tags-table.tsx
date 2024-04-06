@@ -3,14 +3,12 @@ import React, { FC, useState } from "react";
 import AppTable from "@/app/(admin)/admin/components/AppTable/app-table";
 import type { TableProps } from "antd";
 import { Post } from "@/app/api/model";
-import { Button } from "@nextui-org/react";
-import { SolarAddSquareBold } from "@/assets/icon";
-import { useRouter } from "next/navigation";
 
 export interface PostsProps {
-  page: number;
+  searchParams: { page: number };
 }
-const PostTable: FC<PostsProps> = ({ page }) => {
+const TagsTable: FC<PostsProps> = ({ searchParams }) => {
+  const page = Number(searchParams.page) || 1;
   const columns: TableProps<Post>["columns"] = [
     {
       title: "标题",
@@ -44,37 +42,19 @@ const PostTable: FC<PostsProps> = ({ page }) => {
       setSelectedRowKeys(selectedRowKeys);
     },
   };
-  const router = useRouter();
   return (
-    <>
-      <div className="self-start mb-5">
-        <Button
-          color="primary"
-          as={"a"}
-          onClick={() => {
-            router.push("/admin/posts/new");
-          }}
-          radius="sm"
-          startContent={<SolarAddSquareBold className="text-large" />}
-        >
-          创建文章
-        </Button>
-      </div>
-      <AppTable
-        pagination={{
-          total: 30,
-          pageSize: 10,
-          current: page,
-          onChange: (page, pageSize) => {
-            console.log(22);
-          },
-        }}
-        rowSelection={rowSelection}
-        dataSource={[]}
-        columns={columns}
-      />
-    </>
+    <AppTable
+      pagination={{
+        total: 30,
+        pageSize: 10,
+        current: page,
+        onChange: (page, pageSize) => {},
+      }}
+      rowSelection={rowSelection}
+      dataSource={[]}
+      columns={columns}
+    />
   );
 };
 
-export default PostTable;
+export default TagsTable;

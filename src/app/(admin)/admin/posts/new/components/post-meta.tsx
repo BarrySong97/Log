@@ -1,6 +1,13 @@
 "use client";
 import React, { FC } from "react";
-import { Image, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import {
+  Button,
+  Image,
+  Input,
+  Select,
+  SelectItem,
+  Textarea,
+} from "@nextui-org/react";
 export interface PostMetaProps {}
 export const animals = [
   {
@@ -65,11 +72,15 @@ export const animals = [
 const PostMeta: FC<PostMetaProps> = () => {
   return (
     <>
-      <h4 className="text-sm font-semibold ">文章信息</h4>
+      <div className="flex gap-4">
+        <Button color="primary">发布</Button>
+        <Button color="danger">删除</Button>
+      </div>
+      <div className="text-sm font-semibold ">文章信息</div>
       <Image
-        isBlurred
         src="https://cdn.sanity.io/images/i81ys0da/production/e1785404ce160170a8cb0964cd982d6d4ee113d3-1200x675.png"
         alt="NextUI Album Cover"
+        radius="sm"
         className="w-full object-cover"
       />
       <Input
@@ -92,13 +103,8 @@ const PostMeta: FC<PostMetaProps> = () => {
           </SelectItem>
         ))}
       </Select>
-      <Textarea
-        className="flex-1 "
-        label="简介"
-        radius="sm"
-        size="sm"
-        variant="flat"
-      />
+      <Textarea label="简介" radius="sm" size="sm" variant="flat" />
+      <div className="text-sm font-semibold ">目录</div>
     </>
   );
 };
