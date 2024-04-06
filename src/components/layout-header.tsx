@@ -178,7 +178,10 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
         <div className="mb-32 grid text-center gap-4 lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left">
           {navMenu.map((item) => {
             return (
-              <CardContainer className="inter-var w-full h-full">
+              <CardContainer
+                key={item.title}
+                className="inter-var w-full h-full"
+              >
                 <CardBody className="w-full">
                   <CardItem translateZ="100" className="w-full">
                     <Link
