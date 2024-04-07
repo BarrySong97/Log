@@ -64,7 +64,7 @@ const PostTable: FC<PostsProps> = ({ page }) => {
         pagination={{
           total: 30,
           pageSize: 10,
-          current: page,
+          current: page ?? 1,
           onChange: (page, pageSize) => {
             console.log(22);
           },

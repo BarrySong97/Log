@@ -1,8 +1,11 @@
 "use client";
 import React, { FC, useState } from "react";
 import AppTable from "@/app/(admin)/admin/components/AppTable/app-table";
-import type { TableProps } from "antd";
+import { type TableProps } from "antd";
 import { Project } from "@/app/api/model";
+import { Button } from "@nextui-org/react";
+import { SolarAddSquareBold } from "@/assets/icon";
+import EditProject from "./eidt-project";
 
 export interface PostsProps {}
 const ProjectTable: FC<PostsProps> = () => {
@@ -49,21 +52,37 @@ const ProjectTable: FC<PostsProps> = () => {
       setSelectedRowKeys(selectedRowKeys);
     },
   };
+  const [modal, setModal] = useState(false);
   return (
-    <AppTable
-      pagination={{
-        total: 30,
+    <>
+      <div className="self-start mb-5">
+        <Button
+          color="primary"
+          onClick={() => {
+            setModal(true);
+          }}
+          radius="sm"
+          startContent={<SolarAddSquareBold className="text-large" />}
+        >
+          创建项目
+        </Button>
+      </div>
+      <AppTable
+        pagination={{
+          total: 30,
 
-        pageSize: 10,
-        current: 1,
-        onChange: (page, pageSize) => {
-          console.log(22);
-        },
-      }}
-      rowSelection={rowSelection}
-      dataSource={[]}
-      columns={columns}
-    />
+          pageSize: 10,
+          current: 1,
+          onChange: (page, pageSize) => {
+            console.log(22);
+          },
+        }}
+        rowSelection={rowSelection}
+        dataSource={[]}
+        columns={columns}
+      />
+      <EditProject isOpen={modal} onOpenChange={setModal} />
+    </>
   );
 };
 
