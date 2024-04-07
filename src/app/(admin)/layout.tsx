@@ -1,8 +1,7 @@
-import { Providers } from "../providers";
+import { Providers } from "@/app/providers";
 import AdminLayout from "./admin/components/admin-layout";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-
-import "../globals.css";
+import "@/app/globals.css";
 
 export const metadata = {
   title: "Next.js",

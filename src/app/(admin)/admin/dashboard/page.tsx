@@ -6,9 +6,7 @@ import {
 } from "@/assets/icon";
 import { Card, CardBody } from "@nextui-org/react";
 import React, { FC } from "react";
-export interface Props {
-  height: number;
-}
+export interface Props {}
 const Dashboard: FC<Props> = () => {
   const statusNumber = [
     {

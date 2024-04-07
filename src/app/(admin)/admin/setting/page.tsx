@@ -1,5 +1,7 @@
-import { User } from "@nextui-org/react";
+import { Input, User } from "@nextui-org/react";
+import { Form } from "antd";
 import React, { FC } from "react";
+import SocialMediaForm from "./components/social-media-form";
 export interface SettingProps {}
 const Setting: FC<SettingProps> = () => {
   return (
@@ -30,10 +32,11 @@ const Setting: FC<SettingProps> = () => {
           </div>
         </div>
         <div>
-          <p className="text-base font-medium text-default-700">个人资料</p>
-          <p className="mt-1 text-sm font-normal text-default-400">
-            修改个人, 社交媒体信息
+          <p className="text-base font-medium text-default-700">社交媒体</p>
+          <p className="mt-1 text-sm font-normal text-default-400 mb-4">
+            社交媒体链接
           </p>
+          <SocialMediaForm />
         </div>
       </div>
     </div>

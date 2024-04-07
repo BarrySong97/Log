@@ -1,19 +1,44 @@
-export type Post = {
-  content: string;
-  cover: string;
-  description: string;
+export type Tag = {
   id: string;
-  tag: string[];
   title: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
+  posts: Post[];
 };
+
 export type Project = {
-  description: string;
-  icon: string;
   id: string;
-  link: string;
   title: string;
-  createdAt: string;
-  updatedAt: string;
+  desc: string;
+  content?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  icon: string;
+  link: string;
+};
+
+export type Post = {
+  id: string;
+  cover?: string;
+  title: string;
+  desc: string;
+  content?: string;
+  textCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+  Tag: Tag[];
+};
+
+export type User = {
+  id: string;
+  name?: string;
+  email?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  weibo: string;
+  twitter: string;
+  bilibli: string;
+  wechat: string;
+  redbook: string;
+  password: string;
 };
