@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, ReactNode } from "react";
+import React, { FC, ReactNode, useEffect } from "react";
 import "./index.css";
 import { Table } from "antd";
 import type { TableProps } from "antd";
@@ -17,6 +17,9 @@ const AppTable: FC<AppTableProps> = ({
   const { onHeaderRow } = props;
   const router = useRouter();
 
+  useEffect(() => {
+    router.replace(`?page=1`);
+  }, []);
   return (
     <div className="p-4 z-0 flex items-center flex-col relative justify-between gap-4 bg-content1 overflow-auto rounded-large shadow-small w-full">
       <Table
@@ -80,15 +83,14 @@ const AppTable: FC<AppTableProps> = ({
         <Pagination
           className="mt-1"
           showControls
-          total={Math.round(
-            (pagination?.total ?? 0) / (pagination?.pageSize ?? 10) + 1
+          total={Math.ceil(
+            (pagination?.total ?? 0) / (pagination?.pageSize ?? 10)
           )}
-          initialPage={1}
           onChange={(p) => {
             pagination?.onChange?.(p, pagination.pageSize ?? 10);
             router.replace(`?page=${p}`);
           }}
-          page={pagination.current}
+          page={pagination.current ?? 1}
         />
       ) : null}
     </div>

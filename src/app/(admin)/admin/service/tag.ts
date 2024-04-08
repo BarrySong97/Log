@@ -33,13 +33,13 @@ export async function deleteTag(id: number) {
 /**
  * 更新
  */
-export async function updateTag(id: number, name: string) {
+export async function updateTag(id: string, title: string) {
   const { data } = await fetch(`/api/tags/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ title }),
   }).then((res) => res.json());
   return data as Promise<void>;
 }

@@ -3,7 +3,11 @@ import prisma from "@/db";
 import { auth } from "@/auth";
 
 export const GET = async () => {
-  const res = await prisma.tag.findMany();
+  const res = await prisma.tag.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
   return NextResponse.json({
     data: res,
   });

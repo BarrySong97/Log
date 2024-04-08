@@ -5,7 +5,7 @@ export interface PostsProps {
   searchParams: { page: number };
 }
 const Posts: FC<PostsProps> = ({ searchParams }) => {
-  const page = searchParams?.page || 1;
+  const page = searchParams?.page ?? 1;
   return (
     <div>
       <h1 className="text-3xl font-bold leading-9 text-default-foreground mb-8">
