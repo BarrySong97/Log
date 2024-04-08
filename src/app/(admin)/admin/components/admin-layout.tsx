@@ -16,6 +16,8 @@ import {
 } from "@/assets/icon";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu } from "antd";
+import { signOut } from "@/auth";
+import { signOutAction } from "../action";
 
 export const IconWrapper = ({
   children,
@@ -89,6 +91,9 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
       label: "注销",
       key: "1",
       icon: <SolarLogout2Broken />,
+      onClick: () => {
+        signOut();
+      },
     },
   ];
   // relace所有url query
@@ -128,7 +133,10 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
           </div>
         </div>
         <div>
-          <Menu mode="inline" items={bottomMenu} />
+          <form action={signOutAction}>
+            <button>登出</button>
+          </form>
+          {/* <Menu mode="inline" items={bottomMenu} /> */}
         </div>
       </div>
       <div className="flex-1 p-4">{children}</div>

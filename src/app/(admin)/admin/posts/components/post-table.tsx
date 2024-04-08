@@ -65,9 +65,7 @@ const PostTable: FC<PostsProps> = ({ page }) => {
           total: 30,
           pageSize: 10,
           current: page ?? 1,
-          onChange: (page, pageSize) => {
-            console.log(22);
-          },
+          onChange: (page, pageSize) => {},
         }}
         rowSelection={rowSelection}
         dataSource={[]}

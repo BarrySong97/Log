@@ -18,6 +18,7 @@ export const AUTHOPTIONS: NextAuthConfig = {
       },
       async authorize(credentials) {
         const { username, password } = credentials || {};
+
         const user = await prisma.user.findFirst({
           where: {
             email: username ?? "",
@@ -33,6 +34,7 @@ export const AUTHOPTIONS: NextAuthConfig = {
           if (!isValid) {
             return null;
           }
+
           return {
             id: user.id,
             name: user.name,
@@ -45,7 +47,9 @@ export const AUTHOPTIONS: NextAuthConfig = {
   ],
   pages: {
     signIn: "/login",
+    signOut: "/login",
   },
+  secret: "BarrySongBlog",
   callbacks: {
     async jwt({ token, trigger, session }) {
       //第一次登录先暂时用user.name暂存token，因为nextauth不让覆盖字段
@@ -64,11 +68,18 @@ export const AUTHOPTIONS: NextAuthConfig = {
     },
     async authorized({ request, auth }) {
       // Logged in users are authenticated, otherwise redirect to login page
+      console.log(auth);
+
       return !!auth?.user;
     },
   },
 };
-const { handlers, auth, signIn, signOut } = NextAuth(AUTHOPTIONS);
-export { handlers as POST, handlers as GET, auth, signIn, signOut };
+const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth(AUTHOPTIONS);
+export { POST, GET, auth, signIn, signOut };
 
 // 获取当前user

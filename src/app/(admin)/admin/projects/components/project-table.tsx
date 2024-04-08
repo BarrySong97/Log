@@ -70,12 +70,8 @@ const ProjectTable: FC<PostsProps> = () => {
       <AppTable
         pagination={{
           total: 30,
-
           pageSize: 10,
           current: 1,
-          onChange: (page, pageSize) => {
-            console.log(22);
-          },
         }}
         rowSelection={rowSelection}
         dataSource={[]}
