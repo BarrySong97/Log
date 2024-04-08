@@ -41,7 +41,7 @@ export const DELETE = auth(
  *
  * @returns 更新Tag
  */
-export async function PATCH(req: NextRequest) {
+export async function PUT(req: NextRequest) {
   const body = await req.json();
   const res = await prisma.tag.update({
     where: { id: body.id },

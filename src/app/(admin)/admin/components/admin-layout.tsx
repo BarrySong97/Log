@@ -1,10 +1,9 @@
 "use client";
-import { Listbox, ListboxItem, User } from "@nextui-org/react";
+import { User } from "@nextui-org/react";
 import "./index.css";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { cn } from "@nextui-org/react";
 import {
-  SolarAddSquareBold,
   SolarAddSquareLinear,
   SolarBook2Broken,
   SolarHamburgerMenuLineDuotone,
@@ -133,8 +132,12 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
           </div>
         </div>
         <div>
-          <form action={signOutAction}>
-            <button>登出</button>
+          <form
+            className="flex cursor-pointer hover:bg-default-100/80 h-10 px-1 rounded-md items-center gap-[10px]"
+            action={signOutAction}
+          >
+            <SolarLogout2Broken className="text-xl " />
+            <button className="ant-menu-title-content">登出</button>
           </form>
           {/* <Menu mode="inline" items={bottomMenu} /> */}
         </div>

@@ -1,5 +1,6 @@
 import prisma from "@/db";
 import { NextResponse } from "next/server";
+export const dynamic = "force-dynamic"; // defaults to auto
 
 export async function GET() {
   const postCount = await prisma.post.count();
@@ -9,11 +10,12 @@ export async function GET() {
       textCount: true,
     },
   });
+
   return NextResponse.json({
     data: {
       postCount,
       projectCount,
-      textCount: textCount._sum.textCount,
+      textCount: textCount._sum.textCount ?? 0,
     },
   });
 }

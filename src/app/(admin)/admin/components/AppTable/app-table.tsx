@@ -81,7 +81,7 @@ const AppTable: FC<AppTableProps> = ({
           className="mt-1"
           showControls
           total={Math.round(
-            (pagination?.total ?? 0) / (pagination?.pageSize ?? 10)
+            (pagination?.total ?? 0) / (pagination?.pageSize ?? 10) + 1
           )}
           initialPage={1}
           onChange={(p) => {

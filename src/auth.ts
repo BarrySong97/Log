@@ -68,7 +68,6 @@ export const AUTHOPTIONS: NextAuthConfig = {
     },
     async authorized({ request, auth }) {
       // Logged in users are authenticated, otherwise redirect to login page
-      console.log(auth);
 
       return !!auth?.user;
     },

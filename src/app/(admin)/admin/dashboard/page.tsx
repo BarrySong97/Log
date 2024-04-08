@@ -1,3 +1,4 @@
+import { DashBoardData } from "@/app/api/model";
 import {
   SolarBook2Broken,
   SolarEyeLinear,
@@ -7,29 +8,34 @@ import {
 import { Card, CardBody } from "@nextui-org/react";
 import React, { FC } from "react";
 export interface Props {}
-const Dashboard: FC<Props> = () => {
+const Dashboard: FC<Props> = async () => {
+  const { data }: { data: DashBoardData } = await fetch(
+    `${process.env.API_PATH}/api/dashboard`
+  ).then((res) => res.json());
+
   const statusNumber = [
     {
       title: "文章数",
-      value: 10,
+      value: data.postCount,
       icon: <SolarBook2Broken />,
     },
     {
       title: "项目数",
-      value: 10,
+      value: data.projectCount,
       icon: <SolarMonitorSmartphoneOutline />,
     },
     {
       title: "文字数",
-      value: 10000,
+      value: data.textCount ?? 0,
       icon: <SolarTextBold />,
     },
     {
       title: "浏览数",
-      value: 10,
+      value: 0,
       icon: <SolarEyeLinear />,
     },
   ];
+
   return (
     <div>
       <h1 className="text-3xl mb-8 font-bold leading-9 text-default-foreground">

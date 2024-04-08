@@ -42,3 +42,9 @@ export type User = {
   redbook: string;
   password: string;
 };
+
+export type DashBoardData = {
+  postCount: number;
+  projectCount: number;
+  textCount: number;
+};
