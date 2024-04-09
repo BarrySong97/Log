@@ -86,11 +86,12 @@ const AppTable: FC<AppTableProps> = ({
           total={Math.ceil(
             (pagination?.total ?? 0) / (pagination?.pageSize ?? 10)
           )}
+          initialPage={1}
           onChange={(p) => {
             pagination?.onChange?.(p, pagination.pageSize ?? 10);
             router.replace(`?page=${p}`);
           }}
-          page={pagination.current ?? 1}
+          page={Number(pagination.current)}
         />
       ) : null}
     </div>
