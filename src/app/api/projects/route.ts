@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db";
 
 export async function GET() {
-  const res = await prisma.project.findMany();
+  const res = await prisma.project.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
   return NextResponse.json({
     data: res,
   });

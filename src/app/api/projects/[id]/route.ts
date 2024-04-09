@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import prisma from "@/db";
+import { deleteFile } from "../../file/upload/route";
 /**
  *
  * @param _ 获取单个文章
@@ -43,6 +44,13 @@ export async function DELETE(
       id: params.id,
     },
   });
+  if (res.icon) {
+    try {
+      deleteFile(res.icon);
+    } catch (error) {
+      console.log(333);
+    }
+  }
   return NextResponse.json({
     data: res,
   });
@@ -51,7 +59,7 @@ export async function DELETE(
  *
  * @returns 更新文章
  */
-export async function PATCH(req: NextRequest) {
+export async function PUT(req: NextRequest) {
   const body = await req.json();
   const res = await prisma.project.update({
     where: { id: body.id },

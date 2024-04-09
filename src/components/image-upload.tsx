@@ -51,7 +51,7 @@ const ImageUplod: FC<VercelImageUplodProps> = ({
 
   const renderBody = () => {
     if (value) {
-      return <img src={value} alt="icon" />;
+      return <img src={value} alt="icon" className="" />;
     }
     if (uploadLoading) {
       return <Spin />;

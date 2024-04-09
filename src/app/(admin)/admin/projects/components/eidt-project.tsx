@@ -1,6 +1,4 @@
 import { Project } from "@/app/api/model";
-import { SolarCloudUploadBroken } from "@/assets/icon";
-import { upload } from "@vercel/blob/client";
 import {
   Button,
   Input,
@@ -10,9 +8,11 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import { Form, Upload } from "antd";
-import React, { FC } from "react";
+import { Form, message } from "antd";
+import React, { FC, useEffect, useRef, useState } from "react";
 import ImageUplod from "@/components/image-upload";
+import { createProject, updateProject } from "../../service/project";
+import { useQueryClient } from "react-query";
 export interface EditProjectProps {
   isOpen: boolean;
   onOpenChange: (b: boolean) => void;
@@ -21,7 +21,69 @@ export interface EditProjectProps {
 const EditProject: FC<EditProjectProps> = ({ isOpen, onOpenChange, data }) => {
   const [form] =
     Form.useForm<Omit<Project, "id" | "createdAt" | "updatedAt">>();
+  const [loading, setLoading] = useState(false);
   const title = Form.useWatch("title", form);
+  const icon = Form.useWatch("icon", form);
+  const preIconImage = useRef<string>();
+  preIconImage.current = icon;
+  const queryClient = useQueryClient();
+  const onCreate = async (onClose: () => void) => {
+    if (!title) {
+      return;
+    }
+    try {
+      const values = form.getFieldsValue();
+      setLoading(true);
+      const res = await createProject(values);
+      message.success("创建成功");
+      queryClient.setQueryData<Project[]>(
+        "projects",
+        (data: Project[] | undefined) => {
+          return [res, ...(data ?? [])];
+        }
+      );
+      onClose();
+      form.resetFields();
+    } catch (error: any) {
+      message.error(`创建失败, ${error.messag}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const onEdit = async (onClose: () => void) => {
+    if (!data?.id) {
+      return;
+    }
+    try {
+      const values = form.getFieldsValue();
+      setLoading(true);
+      const res = await updateProject(values, data.id);
+      message.success("编辑成功");
+      queryClient.setQueryData("projects", (_data: any) => {
+        const index = _data?.findIndex((tag: Project) => tag.id === data?.id);
+        if (index !== undefined) {
+          _data[index] = res;
+        }
+        return [...(_data ?? [])];
+      });
+      onClose();
+      form.resetFields();
+    } catch (error: any) {
+      message.error(`编辑失败, ${error.messag}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (data) {
+      form.setFieldsValue(data);
+    }
+  }, [data]);
+  useEffect(() => {
+    if (!isOpen) {
+      form.resetFields();
+    }
+  }, [isOpen, data]);
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
@@ -62,7 +124,17 @@ const EditProject: FC<EditProjectProps> = ({ isOpen, onOpenChange, data }) => {
               <Button color="danger" variant="light" onPress={onClose}>
                 取消
               </Button>
-              <Button color="primary" onPress={onClose}>
+              <Button
+                isLoading={loading}
+                color="primary"
+                onPress={() => {
+                  if (data) {
+                    onEdit(onClose);
+                  } else {
+                    onCreate(onClose);
+                  }
+                }}
+              >
                 {!data ? "创建" : "更新"}
               </Button>
             </ModalFooter>

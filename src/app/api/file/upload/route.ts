@@ -1,18 +1,24 @@
-import { STS } from "ali-oss";
-import Client from "ali-oss";
+import OSS from "ali-oss";
 
 import { NextResponse } from "next/server";
 
+export const config = {
+  accessKeyId: process.env.OSS_ACCESS_KEY ?? "",
+  accessKeySecret: process.env.OSS_Access_KEY_SECRET ?? "",
+  bucket: process.env.ALI_Bucket ?? "",
+};
+const client = new OSS(config);
+export async function deleteFile(url: string) {
+  console.log(url);
+
+  const parts = url.split(".aliyuncs.com/");
+  const result = parts[1]; // 这将获取到"/测试3"
+
+  const res = await client.delete(result);
+  console.log(res);
+}
 export async function GET(request: Request): Promise<NextResponse> {
   try {
-    const config = {
-      accessKeyId: process.env.OSS_ACCESS_KEY ?? "",
-      accessKeySecret: process.env.OSS_Access_KEY_SECRET ?? "",
-      bucket: process.env.ALI_Bucket ?? "",
-      dir: "/blog",
-    };
-
-    const client = new Client(config);
     const date = new Date();
     date.setDate(date.getDate() + 1);
     const policy = {
@@ -35,12 +41,24 @@ export async function GET(request: Request): Promise<NextResponse> {
     const body = {
       policy: formData.policy,
       signature: formData.Signature,
+      location: location.location,
       accessId: formData.OSSAccessKeyId,
       host,
-      expire: 3 * 60,
-      dir: config.dir,
+      expire: 5 * 60,
     };
     return NextResponse.json(body);
+  } catch (error) {
+    return NextResponse.json(
+      { error: (error as Error).message },
+      { status: 400 } // The webhook will retry 5 times waiting for a 200
+    );
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const body = await request.json();
+    client.delete(body.url);
   } catch (error) {
     return NextResponse.json(
       { error: (error as Error).message },
