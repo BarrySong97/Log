@@ -20,6 +20,7 @@ const AppTable: FC<AppTableProps> = ({
   useEffect(() => {
     router.replace(`?page=1`);
   }, []);
+
   return (
     <div className="p-4 z-0 flex items-center flex-col relative justify-between gap-4 bg-content1 overflow-auto rounded-large shadow-small w-full">
       <Table

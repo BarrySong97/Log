@@ -18,9 +18,6 @@ export default function useOssSignature() {
   // localstorege存的，用來判斷是否失效
   const localOssSignature = localString ? JSON.parse(localString ?? "") : {};
 
-  const expireTimestamp = localOssSignature
-    ? parseInt(localOssSignature.expire, 10)
-    : -1;
   const now = dayjs().unix();
   const { run } = useRequest(() => getToken(), {
     manual: true,
@@ -31,7 +28,7 @@ export default function useOssSignature() {
   });
 
   useEffect(() => {
-    if (!localOssSignature || !expireTimestamp || expireTimestamp < now) {
+    if (!localOssSignature) {
       run();
       return;
     }

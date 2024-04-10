@@ -49,5 +49,5 @@ export async function updateProject(
       ...body,
     }),
   }).then((res) => res.json());
-  return data as Promise<void>;
+  return data as Promise<Project>;
 }

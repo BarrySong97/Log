@@ -3,7 +3,7 @@ import React, { FC, useState } from "react";
 import AppTable from "@/app/(admin)/admin/components/AppTable/app-table";
 import { Popconfirm, message, type TableProps } from "antd";
 import { Project } from "@/app/api/model";
-import { Button, Link } from "@nextui-org/react";
+import { Button, Link, LinkIcon } from "@nextui-org/react";
 import { SolarAddSquareBold } from "@/assets/icon";
 import EditProject from "./eidt-project";
 import { useQuery, useQueryClient } from "react-query";
@@ -37,6 +37,13 @@ const ProjectTable: FC<PostsProps> = () => {
       title: "链接",
       dataIndex: "link",
       key: "link",
+      render: (link) => {
+        return (
+          <Link size="sm" underline="hover" href={link}>
+            {link}
+          </Link>
+        );
+      },
     },
     {
       title: "创建日期",
@@ -112,6 +119,7 @@ const ProjectTable: FC<PostsProps> = () => {
   const { data, isLoading: loading } = useQuery<Project[]>("projects", {
     queryFn: () => getProjectList(),
   });
+
   return (
     <>
       <div className="self-start mb-5">
@@ -129,6 +137,8 @@ const ProjectTable: FC<PostsProps> = () => {
       <AppTable
         rowSelection={rowSelection}
         dataSource={data}
+        rowKey={"id"}
+        key={JSON.stringify(data)}
         loading={loading}
         columns={columns}
       />

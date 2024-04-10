@@ -14,7 +14,6 @@ const ImageUplod: FC<VercelImageUplodProps> = ({
   onChange,
 }) => {
   const [uploadLoading, setUploadLoading] = useState(false);
-  const signature = useOssSignature();
   const ossSignature = useOssSignature();
 
   const getExtraData: UploadProps["data"] = (file) => ({
@@ -41,7 +40,7 @@ const ImageUplod: FC<VercelImageUplodProps> = ({
     }
     if (info.file.status === "done") {
       setUploadLoading(false);
-      onChange?.(`${signature?.host}/${filename ?? info.file.name}`);
+      onChange?.(`${ossSignature?.host}/${filename ?? info.file.name}`);
       message.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === "error") {
       message.error(`${info.file.name} file upload failed.`);

@@ -44,7 +44,7 @@ export async function GET(request: Request): Promise<NextResponse> {
       location: location.location,
       accessId: formData.OSSAccessKeyId,
       host,
-      expire: 5 * 60,
+      expire: 99999999999999,
     };
     return NextResponse.json(body);
   } catch (error) {
@@ -58,7 +58,8 @@ export async function GET(request: Request): Promise<NextResponse> {
 export async function DELETE(request: Request) {
   try {
     const body = await request.json();
-    client.delete(body.url);
+    await deleteFile(body.url);
+    return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
       { error: (error as Error).message },

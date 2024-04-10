@@ -25,7 +25,6 @@ const EditProject: FC<EditProjectProps> = ({ isOpen, onOpenChange, data }) => {
   const title = Form.useWatch("title", form);
   const icon = Form.useWatch("icon", form);
   const preIconImage = useRef<string>();
-  preIconImage.current = icon;
   const queryClient = useQueryClient();
   const onCreate = async (onClose: () => void) => {
     if (!title) {
@@ -60,11 +59,14 @@ const EditProject: FC<EditProjectProps> = ({ isOpen, onOpenChange, data }) => {
       const res = await updateProject(values, data.id);
       message.success("编辑成功");
       queryClient.setQueryData("projects", (_data: any) => {
-        const index = _data?.findIndex((tag: Project) => tag.id === data?.id);
+        const index = _data?.findIndex(
+          (project: Project) => project.id === data?.id
+        );
         if (index !== undefined) {
           _data[index] = res;
         }
-        return [...(_data ?? [])];
+
+        return [..._data];
       });
       onClose();
       form.resetFields();
