@@ -4,6 +4,10 @@ export type CreatePost = Omit<
   Post,
   "id" | "createdAt" | "updatedAt" | "tags"
 > & { tagsId: string[] };
+const defaultValue = {
+  type: "doc",
+  content: [],
+};
 export const postAtom = atom<CreatePost>({
   cover: "",
   published: false,

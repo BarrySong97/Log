@@ -3,11 +3,11 @@ import React, { FC, useState } from "react";
 import AppTable from "@/app/(admin)/admin/components/AppTable/app-table";
 import { Popconfirm, message, type TableProps } from "antd";
 import { Post, Tag } from "@/app/api/model";
-import { Button, Image, Link } from "@nextui-org/react";
+import { Button, Chip, Image, Link } from "@nextui-org/react";
 import { SolarAddSquareBold } from "@/assets/icon";
 import { useRouter } from "next/navigation";
 import { useQuery, useQueryClient } from "react-query";
-import { deletePost, getPostList } from "../../service/post";
+import { deletePost, getPostList, publish } from "../../service/post";
 import dayjs from "dayjs";
 
 export interface PostsProps {
@@ -15,6 +15,7 @@ export interface PostsProps {
 }
 const PostTable: FC<PostsProps> = ({ page }) => {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const columns: TableProps<Post>["columns"] = [
     {
       title: "封面",
@@ -46,6 +47,18 @@ const PostTable: FC<PostsProps> = ({ page }) => {
       },
     },
     {
+      title: "状态",
+      dataIndex: "published",
+      key: "published",
+      render: (published) => {
+        return published ? (
+          <Chip color="success">已发布</Chip>
+        ) : (
+          <Chip color="warning">草稿</Chip>
+        );
+      },
+    },
+    {
       title: "创建日期",
       dataIndex: "createdAt",
       key: "createdAt",
@@ -67,7 +80,68 @@ const PostTable: FC<PostsProps> = ({ page }) => {
       render: (record) => {
         return (
           <div className="flex gap-2">
-            <Link onClick={() => {}} color="primary" size="sm">
+            {record.published ? (
+              <Popconfirm
+                title="撤销发布文章"
+                description="确认撤销发布文章吗？"
+                onConfirm={async () => {
+                  try {
+                    await publish(record.id, 0);
+                    message.success("撤销发布成功");
+                    queryClient.setQueryData<Post[]>(
+                      "posts",
+                      (data: Post[] | undefined) => {
+                        data?.forEach((item) => {
+                          if (item.id === record.id) {
+                            item.published = false;
+                          }
+                        });
+                        return data ?? [];
+                      }
+                    );
+                  } catch (error) {}
+                }}
+                okText="确认"
+                cancelText="取消"
+              >
+                <Link size="sm">撤销发布</Link>
+              </Popconfirm>
+            ) : (
+              <Popconfirm
+                title="发布文章"
+                description="确认发布文章吗？"
+                onConfirm={async () => {
+                  try {
+                    await publish(record.id, 1);
+                    queryClient.setQueryData<Post[]>(
+                      "posts",
+                      (data: Post[] | undefined) => {
+                        data?.forEach((item) => {
+                          if (item.id === record.id) {
+                            item.published = true;
+                          }
+                        });
+                        return data ?? [];
+                      }
+                    );
+                    message.success("发布成功");
+                  } catch (error) {}
+                }}
+                okText="确认"
+                cancelText="取消"
+              >
+                <Link color="primary" size="sm">
+                  发布
+                </Link>
+              </Popconfirm>
+            )}
+            <Link
+              onClick={() => {
+                router.push(`/admin/posts/${record.id}`);
+              }}
+              color="primary"
+              size="sm"
+            >
               编辑
             </Link>
             <Popconfirm
@@ -108,7 +182,6 @@ const PostTable: FC<PostsProps> = ({ page }) => {
       setSelectedRowKeys(selectedRowKeys);
     },
   };
-  const router = useRouter();
   const { data, isLoading: loading } = useQuery<Post[]>("posts", {
     queryFn: () => getPostList(),
   });

@@ -41,7 +41,7 @@ export async function GET(request: Request): Promise<NextResponse> {
       location: location.location,
       accessId: formData.OSSAccessKeyId,
       host,
-      expire: 99999999999999,
+      expire: 4 * 60,
     };
     return NextResponse.json(body);
   } catch (error) {

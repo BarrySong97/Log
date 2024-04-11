@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -13,11 +13,15 @@ import { useAtom } from "jotai";
 import { CreatePost, postAtom } from "../atom";
 import { Form, message } from "antd";
 import { useQuery } from "react-query";
-import { Tag } from "@/app/api/model";
+import { Post, Tag } from "@/app/api/model";
 import { getTagList } from "../../../service/tag";
 import ImageUplod from "@/components/image-upload";
-import { createPost } from "../../../service/post";
-export interface PostMetaProps {}
+import { createPost, editPost } from "../../../service/post";
+import { useRouter } from "next/navigation";
+import { useForm } from "antd/es/form/Form";
+export interface PostMetaProps {
+  data?: Post;
+}
 export const animals = [
   {
     label: "Cat",
@@ -78,12 +82,26 @@ export const animals = [
     description: "A large semiaquatic reptile",
   },
 ];
-const PostMeta: FC<PostMetaProps> = () => {
-  const [post] = useAtom(postAtom);
+const PostMeta: FC<PostMetaProps> = ({ data }) => {
+  const [post, setPost] = useAtom(postAtom);
   const [createLoading, setCreateLoading] = useState(false);
-  const { data, isLoading: loading } = useQuery<Tag[]>("tags", {
+  const { data: tags, isLoading: loading } = useQuery<Tag[]>("tags", {
     queryFn: () => getTagList(),
   });
+  const router = useRouter();
+  const [form] = useForm();
+  useEffect(() => {
+    if (data) {
+      setPost({ ...post, content: data.content });
+      form.setFieldsValue({
+        title: data.title,
+        desc: data.desc,
+        published: data.published,
+        cover: data.cover,
+        tagsId: data.tags.map((v) => v.id),
+      });
+    }
+  }, [data]);
   return (
     <>
       <div className="text-sm font-semibold ">文章信息</div>
@@ -98,22 +116,43 @@ const PostMeta: FC<PostMetaProps> = () => {
               textCount: post.textCount,
               desc: !values.desc ? post.desc : values.desc,
             };
-            await createPost(requestBody);
-            message.success("创建成功");
+            if (data) {
+              await editPost(data.id, requestBody);
+              message.success("更新成功");
+            } else {
+              await createPost(requestBody);
+              message.success("创建成功");
+            }
+            router.push("/admin/posts");
+            setPost({
+              cover: "",
+              published: false,
+              title: "",
+              desc: "",
+              textCount: 0,
+              content: "",
+              tagsId: [],
+            });
           } catch (error) {
             message.error("创建失败");
           } finally {
             setCreateLoading(false);
           }
         }}
+        form={form}
       >
         <div className="flex justify-between items-end gap-4">
           <Form.Item>
             <Button isLoading={createLoading} type="submit" color="primary">
-              创建
+              {data ? "更新" : "创建"}
             </Button>
           </Form.Item>
-          <Form.Item noStyle name="published">
+          <Form.Item
+            trigger="onValueChange"
+            valuePropName="isSelected"
+            noStyle
+            name="published"
+          >
             <Checkbox className="mb-4" color="primary">
               发布
             </Checkbox>
@@ -147,7 +186,7 @@ const PostMeta: FC<PostMetaProps> = () => {
             placeholder="请选择标签"
             className="max-w-xs mb-4"
           >
-            {data?.map((tag) => (
+            {tags?.map((tag) => (
               <SelectItem key={tag.id} value={tag.title}>
                 {tag.title}
               </SelectItem>

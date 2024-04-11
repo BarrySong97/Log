@@ -1,19 +1,25 @@
 "use client";
 import { JSONContent } from "novel";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Editor from "./editor/advanced-editor";
 import { useAtom } from "jotai";
 import { postAtom } from "../atom";
-export interface PostEditorProps {}
+import { Post } from "@/app/api/model";
+import { usePathname } from "next/navigation";
+export interface PostEditorProps {
+  data?: Post;
+}
+
 const defaultValue = {
   type: "doc",
   content: [],
 };
-
-const PostEditor: FC<PostEditorProps> = () => {
+const PostEditor: FC<PostEditorProps> = ({ data }) => {
   const [post, setPost] = useAtom(postAtom);
-  const jsonObject = post?.content ? JSON.parse(post.content) : defaultValue;
-  return (
+  const jsonObject = !data
+    ? JSON.parse(post?.content ?? JSON.stringify(defaultValue))
+    : JSON.parse(data?.content ?? JSON.stringify(defaultValue));
+  return jsonObject ? (
     <Editor
       initialValue={jsonObject}
       onChange={(value, text) => {
@@ -32,7 +38,7 @@ const PostEditor: FC<PostEditorProps> = () => {
         });
       }}
     />
-  );
+  ) : null;
 };
 
 export default PostEditor;

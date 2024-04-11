@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import prisma from "@/db";
 import { deleteFile } from "../../file/upload/route";
+import { CreatePost } from "@/app/(admin)/admin/posts/new/atom";
 /**
  *
  * @param _ 获取单个文章
@@ -19,6 +20,9 @@ export async function GET(
   const res = await prisma.post.findFirst({
     where: {
       id: params.id,
+    },
+    include: {
+      tags: true,
     },
   });
   return NextResponse.json({
@@ -55,12 +59,29 @@ export async function DELETE(
  *
  * @returns 更新文章
  */
-export async function PUT(req: NextRequest) {
-  const body = await req.json();
+export async function PUT(
+  req: NextRequest,
+  {
+    params,
+  }: {
+    params: { id: string };
+  }
+) {
+  const body: CreatePost = await req.json();
   const res = await prisma.post.update({
-    where: { id: body.id },
+    where: { id: params.id },
     data: {
-      ...body,
+      title: body.title,
+      content: body.content,
+      cover: body.cover,
+      published: body.published,
+      desc: body.desc,
+      textCount: body.textCount,
+      tags: {
+        set: body.tagsId?.map((tag) => ({
+          id: tag,
+        })),
+      },
     },
   });
   return NextResponse.json({

@@ -30,3 +30,24 @@ export async function getPostList() {
 export async function deletePost(id: number) {
   return fetch(`/api/posts/${id}`, { method: "DELETE" });
 }
+
+/**
+ * 发布，撤销发布
+ */
+export async function publish(id: number, value: number) {
+  return fetch(`/api/posts/${id}/publish`, {
+    method: "POST",
+    body: JSON.stringify({ value }),
+  });
+}
+
+/**
+ * 編輯post
+ */
+
+export async function editPost(id: string, body: CreatePost) {
+  return fetch(`/api/posts/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+}

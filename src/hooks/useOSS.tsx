@@ -24,10 +24,15 @@ export default function useOssSignature() {
 
   useEffect(() => {
     const localString = localStorage.getItem("ossSignature");
+    console.log(localString);
+
     // localstorege存的，用來判斷是否失效
     const localOssSignature = localString ? JSON.parse(localString ?? "") : {};
-    if (!localOssSignature) {
+    if (!localString) {
       run();
+      setInterval(() => {
+        run();
+      }, 5 * 60 * 1000);
       return;
     }
     if (!ossSignature) {

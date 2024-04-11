@@ -24,14 +24,13 @@ export async function POST(req: NextRequest) {
       content: body.content,
       cover: body.cover,
       published: body.published,
-      desc: "",
+      desc: body.desc,
       textCount: body.textCount,
       tags: {
         connect: tagsId.map((id) => ({ id })),
       },
     },
   });
-  console.log(res);
 
   return NextResponse.json({
     data: res,
