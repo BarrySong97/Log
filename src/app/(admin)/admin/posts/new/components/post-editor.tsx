@@ -27,6 +27,7 @@ const PostEditor: FC<PostEditorProps> = () => {
         setPost({
           ...post,
           desc: text.slice(0, 256),
+          textCount: text?.length ?? 0,
           content: str,
         });
       }}

@@ -3,7 +3,11 @@ import prisma from "@/db";
 import { CreatePost } from "@/app/(admin)/admin/posts/new/atom";
 
 export async function GET() {
-  const res = await prisma.post.findMany();
+  const res = await prisma.post.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
   return NextResponse.json({
     data: res,
   });
@@ -15,13 +19,17 @@ export async function POST(req: NextRequest) {
     data: {
       title: body.title,
       content: body.content,
+      cover: body.cover,
+      published: body.published,
       desc: "",
-      textCount: 0,
-      Tag: {
+      textCount: body.textCount,
+      tags: {
         connect: tagsId.map((id) => ({ id })),
       },
     },
   });
+  console.log(res);
+
   return NextResponse.json({
     data: res,
   });

@@ -6,6 +6,8 @@ import { Post } from "@/app/api/model";
 import { Button } from "@nextui-org/react";
 import { SolarAddSquareBold } from "@/assets/icon";
 import { useRouter } from "next/navigation";
+import { useQuery } from "react-query";
+import { getPostList } from "../../service/post";
 
 export interface PostsProps {
   page: number;
@@ -45,6 +47,9 @@ const PostTable: FC<PostsProps> = ({ page }) => {
     },
   };
   const router = useRouter();
+  const { data, isLoading: loading } = useQuery<Post[]>("posts", {
+    queryFn: () => getPostList(),
+  });
   return (
     <>
       <div className="self-start mb-5">
@@ -62,13 +67,14 @@ const PostTable: FC<PostsProps> = ({ page }) => {
       </div>
       <AppTable
         pagination={{
-          total: 30,
+          total: data?.length ?? 0,
           pageSize: 10,
           current: page ?? 1,
-          onChange: (page, pageSize) => {},
         }}
+        rowKey={"id"}
+        loading={loading}
         rowSelection={rowSelection}
-        dataSource={[]}
+        dataSource={data?.slice(10 * (page - 1), page * 10)}
         columns={columns}
       />
     </>

@@ -23,6 +23,7 @@ export type Post = {
   title: string;
   desc: string;
   content?: string;
+  published: boolean;
   textCount: number;
   createdAt: Date;
   updatedAt: Date;

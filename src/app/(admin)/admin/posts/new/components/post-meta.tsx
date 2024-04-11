@@ -1,7 +1,8 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   Button,
+  Checkbox,
   Image,
   Input,
   Select,
@@ -10,11 +11,12 @@ import {
 } from "@nextui-org/react";
 import { useAtom } from "jotai";
 import { CreatePost, postAtom } from "../atom";
-import { Form } from "antd";
+import { Form, message } from "antd";
 import { useQuery } from "react-query";
 import { Tag } from "@/app/api/model";
 import { getTagList } from "../../../service/tag";
 import ImageUplod from "@/components/image-upload";
+import { createPost } from "../../../service/post";
 export interface PostMetaProps {}
 export const animals = [
   {
@@ -78,6 +80,7 @@ export const animals = [
 ];
 const PostMeta: FC<PostMetaProps> = () => {
   const [post] = useAtom(postAtom);
+  const [createLoading, setCreateLoading] = useState(false);
   const { data, isLoading: loading } = useQuery<Tag[]>("tags", {
     queryFn: () => getTagList(),
   });
@@ -85,22 +88,37 @@ const PostMeta: FC<PostMetaProps> = () => {
     <>
       <div className="text-sm font-semibold ">文章信息</div>
       <Form<CreatePost>
-        onFinish={(values) => {
+        onFinish={async (values) => {
           values.tagsId = Array.from(values.tagsId);
-          const requestBody = {
-            ...values,
-            content: post.content,
-            desc: !values.desc ? post.desc : values.desc,
-          };
+          setCreateLoading(true);
+          try {
+            const requestBody = {
+              ...values,
+              content: post.content,
+              textCount: post.textCount,
+              desc: !values.desc ? post.desc : values.desc,
+            };
+            await createPost(requestBody);
+            message.success("创建成功");
+          } catch (error) {
+            message.error("创建失败");
+          } finally {
+            setCreateLoading(false);
+          }
         }}
       >
-        <div className="flex gap-4">
+        <div className="flex justify-between items-end gap-4">
           <Form.Item>
-            <Button type="submit" color="primary">
-              发布
+            <Button isLoading={createLoading} type="submit" color="primary">
+              创建
             </Button>
           </Form.Item>
-          <Button color="danger">删除</Button>
+          <Form.Item noStyle name="published">
+            <Checkbox className="mb-4" color="primary">
+              发布
+            </Checkbox>
+          </Form.Item>
+          {/* <Button color="danger">删除</Button> */}
         </div>
         <Form.Item noStyle name="cover">
           <ImageUplod text="上传封面" imageType="cover" />
