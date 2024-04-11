@@ -14,11 +14,6 @@ async function getToken() {
 export default function useOssSignature() {
   const [ossSignature, setOssSignature] = useState<PolicyData>();
 
-  const localString = localStorage.getItem("ossSignature");
-  // localstorege存的，用來判斷是否失效
-  const localOssSignature = localString ? JSON.parse(localString ?? "") : {};
-
-  const now = dayjs().unix();
   const { run } = useRequest(() => getToken(), {
     manual: true,
     onSuccess: (data: PolicyData) => {
@@ -28,6 +23,9 @@ export default function useOssSignature() {
   });
 
   useEffect(() => {
+    const localString = localStorage.getItem("ossSignature");
+    // localstorege存的，用來判斷是否失效
+    const localOssSignature = localString ? JSON.parse(localString ?? "") : {};
     if (!localOssSignature) {
       run();
       return;

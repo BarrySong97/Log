@@ -2,106 +2,36 @@
 import { JSONContent } from "novel";
 import React, { FC, useState } from "react";
 import Editor from "./editor/advanced-editor";
+import { useAtom } from "jotai";
+import { postAtom } from "../atom";
 export interface PostEditorProps {}
 const defaultValue = {
   type: "doc",
-  content: [
-    {
-      type: "paragraph",
-      content: [
-        {
-          type: "text",
-          text: "This is an example for the editor",
-        },
-      ],
-    },
-    {
-      type: "heading",
-      attrs: {
-        level: 1,
-      },
-      content: [
-        {
-          type: "text",
-          text: "H1",
-        },
-      ],
-    },
-    {
-      type: "heading",
-      attrs: {
-        level: 2,
-      },
-      content: [
-        {
-          type: "text",
-          text: "H2",
-        },
-      ],
-    },
-    {
-      type: "heading",
-      attrs: {
-        level: 3,
-      },
-      content: [
-        {
-          type: "text",
-          text: "H3",
-        },
-      ],
-    },
-    {
-      type: "paragraph",
-      content: [
-        {
-          type: "text",
-          text: "text",
-        },
-      ],
-    },
-    {
-      type: "bulletList",
-      attrs: {
-        tight: true,
-      },
-      content: [
-        {
-          type: "listItem",
-          content: [
-            {
-              type: "paragraph",
-              content: [
-                {
-                  type: "text",
-                  text: "new idea",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          type: "listItem",
-          content: [
-            {
-              type: "paragraph",
-              content: [
-                {
-                  type: "text",
-                  text: "idea",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ],
+  content: [],
 };
 
 const PostEditor: FC<PostEditorProps> = () => {
-  const [value, setValue] = useState<JSONContent>(defaultValue);
-  return <Editor initialValue={value} onChange={setValue} />;
+  const [post, setPost] = useAtom(postAtom);
+  const jsonObject = post?.content ? JSON.parse(post.content) : defaultValue;
+  return (
+    <Editor
+      initialValue={jsonObject}
+      onChange={(value, text) => {
+        const str = JSON.stringify(value);
+        // text 清晰空白字符串，并且把url去除
+        // 1. 去除url
+        text = text.replace(/(https|http)?:\/\/[^\s]+/g, "");
+        // 2. 去除空格
+        text = text.replace(/\s/g, "");
+
+        setPost({
+          ...post,
+          desc: text.slice(0, 256),
+          content: str,
+        });
+      }}
+    />
+  );
 };
 
 export default PostEditor;

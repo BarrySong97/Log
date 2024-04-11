@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import PostEditor from "./components/post-editor";
 import "./prosemirror.css";
+import "./uploader.css";
 import PostMeta from "./components/post-meta";
 export interface EditPost {}
 const EditPost: FC<EditPost> = () => {

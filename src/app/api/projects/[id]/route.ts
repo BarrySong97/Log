@@ -47,9 +47,7 @@ export async function DELETE(
   if (res.icon) {
     try {
       deleteFile(res.icon);
-    } catch (error) {
-      console.log(333);
-    }
+    } catch (error) {}
   }
   return NextResponse.json({
     data: res,

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   EditorRoot,
   EditorCommand,
@@ -26,7 +26,7 @@ const extensions = [...defaultExtensions, slashCommand];
 
 interface EditorProp {
   initialValue?: JSONContent;
-  onChange: (value: JSONContent) => void;
+  onChange: (value: JSONContent, text: string) => void;
 }
 const Editor = ({ initialValue, onChange }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
@@ -36,7 +36,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
   return (
     <EditorRoot>
       <EditorContent
-        className="border relative h-full w-full max-w-screen-xl border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg rounded-md"
+        className="border overflow-auto scrollbar relative h-full w-full max-w-screen-xl border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg rounded-md"
         {...(initialValue && { initialContent: initialValue })}
         extensions={extensions}
         editorProps={{
@@ -51,7 +51,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
           },
         }}
         onUpdate={({ editor }) => {
-          onChange(editor.getJSON());
+          onChange(editor.getJSON(), editor.getText());
         }}
         slotAfter={<ImageResizer />}
       >

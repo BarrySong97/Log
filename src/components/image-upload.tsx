@@ -3,15 +3,20 @@ import { Spin, Upload, UploadProps, message } from "antd";
 import React, { FC, useEffect, useState } from "react";
 import { SolarCloudUploadBroken } from "@/assets/icon";
 import useOssSignature from "@/hooks/useOSS";
+import clsx from "clsx";
 export interface VercelImageUplodProps {
   value?: string;
   filename?: string;
+  imageType: "icon" | "cover";
+  text: string;
   onChange?: (value: string) => void;
 }
 const ImageUplod: FC<VercelImageUplodProps> = ({
   value,
   filename,
+  imageType,
   onChange,
+  text,
 }) => {
   const [uploadLoading, setUploadLoading] = useState(false);
   const ossSignature = useOssSignature();
@@ -50,7 +55,15 @@ const ImageUplod: FC<VercelImageUplodProps> = ({
 
   const renderBody = () => {
     if (value) {
-      return <img src={value} alt="icon" className="" />;
+      return (
+        <img
+          src={value}
+          alt="icon"
+          className={
+            imageType === "icon" ? "" : "w-full h-full object-cover rounded-md"
+          }
+        />
+      );
     }
     if (uploadLoading) {
       return <Spin />;
@@ -58,24 +71,30 @@ const ImageUplod: FC<VercelImageUplodProps> = ({
     return (
       <div className="flex flex-col items-center justify-center w-full">
         <SolarCloudUploadBroken className="text-xl" />
-        <div className="mt-1">上传Icon</div>
+        <div className="mt-1">{text}</div>
       </div>
     );
   };
+  const className = clsx({
+    "h-[150px] mb-4": imageType === "cover",
+  });
   return (
-    <Upload
-      action={ossSignature?.host}
-      beforeUpload={_beforeUpload}
-      data={getExtraData}
-      name={"file"}
-      listType="picture-card"
-      method="post"
-      className="avatar-uploader   !mb-4 w-full !flex !justify-center"
-      showUploadList={false}
-      onChange={onFileChnage}
-    >
-      {renderBody()}
-    </Upload>
+    <div className={className}>
+      <Upload
+        action={ossSignature?.host}
+        beforeUpload={_beforeUpload}
+        data={getExtraData}
+        name={"file"}
+        listType="picture-card"
+        method="post"
+        className={`avatar-uploader h-full  !mb-4 w-full `}
+        rootClassName="w-full"
+        showUploadList={false}
+        onChange={onFileChnage}
+      >
+        {renderBody()}
+      </Upload>
+    </div>
   );
 };
 

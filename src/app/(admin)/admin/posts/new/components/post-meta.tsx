@@ -8,6 +8,13 @@ import {
   SelectItem,
   Textarea,
 } from "@nextui-org/react";
+import { useAtom } from "jotai";
+import { CreatePost, postAtom } from "../atom";
+import { Form } from "antd";
+import { useQuery } from "react-query";
+import { Tag } from "@/app/api/model";
+import { getTagList } from "../../../service/tag";
+import ImageUplod from "@/components/image-upload";
 export interface PostMetaProps {}
 export const animals = [
   {
@@ -70,40 +77,69 @@ export const animals = [
   },
 ];
 const PostMeta: FC<PostMetaProps> = () => {
+  const [post] = useAtom(postAtom);
+  const { data, isLoading: loading } = useQuery<Tag[]>("tags", {
+    queryFn: () => getTagList(),
+  });
   return (
     <>
-      <div className="flex gap-4">
-        <Button color="primary">发布</Button>
-        <Button color="danger">删除</Button>
-      </div>
       <div className="text-sm font-semibold ">文章信息</div>
-      <Image
-        src="https://cdn.sanity.io/images/i81ys0da/production/e1785404ce160170a8cb0964cd982d6d4ee113d3-1200x675.png"
-        alt="NextUI Album Cover"
-        radius="sm"
-        className="w-full object-cover"
-      />
-      <Input
-        label="文章标题"
-        placeholder="请输入文章标题"
-        isRequired
-        radius="sm"
-        size="sm"
-        variant="flat"
-      />
-      <Select
-        label="选择标签"
-        selectionMode="multiple"
-        placeholder="请选择标签"
-        className="max-w-xs"
+      <Form<CreatePost>
+        onFinish={(values) => {
+          values.tagsId = Array.from(values.tagsId);
+          const requestBody = {
+            ...values,
+            content: post.content,
+            desc: !values.desc ? post.desc : values.desc,
+          };
+        }}
       >
-        {animals.map((animal) => (
-          <SelectItem key={animal.value} value={animal.value}>
-            {animal.label}
-          </SelectItem>
-        ))}
-      </Select>
-      <Textarea label="简介" radius="sm" size="sm" variant="flat" />
+        <div className="flex gap-4">
+          <Form.Item>
+            <Button type="submit" color="primary">
+              发布
+            </Button>
+          </Form.Item>
+          <Button color="danger">删除</Button>
+        </div>
+        <Form.Item noStyle name="cover">
+          <ImageUplod text="上传封面" imageType="cover" />
+        </Form.Item>
+        <Form.Item noStyle name="title">
+          <Input
+            label="文章标题"
+            placeholder="请输入文章标题"
+            isRequired
+            radius="sm"
+            size="sm"
+            className="mb-4"
+            variant="flat"
+          />
+        </Form.Item>
+        <Form.Item
+          trigger="onSelectionChange"
+          valuePropName="selectedKeys"
+          noStyle
+          name="tagsId"
+        >
+          <Select
+            label="选择标签"
+            selectionMode="multiple"
+            isLoading={loading}
+            placeholder="请选择标签"
+            className="max-w-xs mb-4"
+          >
+            {data?.map((tag) => (
+              <SelectItem key={tag.id} value={tag.title}>
+                {tag.title}
+              </SelectItem>
+            )) ?? []}
+          </Select>
+        </Form.Item>
+        <Form.Item noStyle name="desc">
+          <Textarea label="简介" radius="sm" size="sm" variant="flat" />
+        </Form.Item>
+      </Form>
       <div className="text-sm font-semibold ">目录</div>
     </>
   );

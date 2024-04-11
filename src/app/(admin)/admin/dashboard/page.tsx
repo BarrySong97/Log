@@ -8,7 +8,6 @@ import {
 import { Card, CardBody } from "@nextui-org/react";
 import React, { FC } from "react";
 export interface Props {}
-export const dynamic = "force-dynamic";
 const Dashboard: FC<Props> = async () => {
   const { data }: { data: DashBoardData } = await fetch(
     `${process.env.API_PATH}/api/dashboard`,

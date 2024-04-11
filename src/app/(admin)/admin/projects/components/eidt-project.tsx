@@ -97,7 +97,11 @@ const EditProject: FC<EditProjectProps> = ({ isOpen, onOpenChange, data }) => {
             <ModalBody>
               <Form form={form}>
                 <Form.Item name="icon" noStyle>
-                  <ImageUplod filename={title} />
+                  <ImageUplod
+                    text="上传Icon"
+                    imageType="icon"
+                    filename={title}
+                  />
                 </Form.Item>
                 <Form.Item name="title" noStyle>
                   <Input

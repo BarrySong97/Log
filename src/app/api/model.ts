@@ -26,7 +26,7 @@ export type Post = {
   textCount: number;
   createdAt: Date;
   updatedAt: Date;
-  Tag: Tag[];
+  tags: Tag[];
 };
 
 export type User = {

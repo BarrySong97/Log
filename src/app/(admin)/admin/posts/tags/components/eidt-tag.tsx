@@ -1,4 +1,3 @@
-import { SolarCloudUploadBroken } from "@/assets/icon";
 import {
   Button,
   Input,
@@ -19,7 +18,6 @@ export interface EditTag {
   data?: Tag;
 }
 const EditTag: FC<EditTag> = ({ isOpen, onOpenChange, data }) => {
-  // const [form] = Form.useForm<{ title: string }>();
   const [title, setTitle] = useState<string>();
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();

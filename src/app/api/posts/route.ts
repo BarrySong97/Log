@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db";
+import { CreatePost } from "@/app/(admin)/admin/posts/new/atom";
 
 export async function GET() {
   const res = await prisma.post.findMany();
@@ -8,9 +9,18 @@ export async function GET() {
   });
 }
 export async function POST(req: NextRequest) {
-  const body = await req.json();
+  const body: CreatePost = await req.json();
+  const tagsId = body.tagsId;
   const res = await prisma.post.create({
-    data: body,
+    data: {
+      title: body.title,
+      content: body.content,
+      desc: "",
+      textCount: 0,
+      Tag: {
+        connect: tagsId.map((id) => ({ id })),
+      },
+    },
   });
   return NextResponse.json({
     data: res,

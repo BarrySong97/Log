@@ -9,13 +9,10 @@ export const config = {
 };
 const client = new OSS(config);
 export async function deleteFile(url: string) {
-  console.log(url);
-
   const parts = url.split(".aliyuncs.com/");
   const result = parts[1]; // 这将获取到"/测试3"
 
   const res = await client.delete(result);
-  console.log(res);
 }
 export async function GET(request: Request): Promise<NextResponse> {
   try {
