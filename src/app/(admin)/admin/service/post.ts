@@ -23,3 +23,10 @@ export async function getPostList() {
   const { data } = await fetch("/api/posts").then((res) => res.json());
   return data as Promise<Post[]>;
 }
+
+/**
+ * 删除post
+ */
+export async function deletePost(id: number) {
+  return fetch(`/api/posts/${id}`, { method: "DELETE" });
+}
