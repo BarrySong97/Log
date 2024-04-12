@@ -173,3 +173,43 @@
         @apply bg-background text-foreground;
     }
 }
+
+.ant-table-body {
+    /* background-color: red; */
+}
+
+.ant-table-body::after:-webkit-scrollbar {
+    background-color: transparent;
+    width: 8px;
+    height: 8px;
+}
+
+/* background of the scrollbar except button or resizer */
+.ant-table-body::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.ant-table-body::-webkit-scrollbar-track:hover {
+    background-color: transparent
+}
+
+/* scrollbar itself */
+.ant-table-body::-webkit-scrollbar-thumb {
+    background-color: #babac0;
+    border-radius: 16px;
+    /* border: 1px solid #fff; */
+}
+
+.ant-table-body::-webkit-scrollbar-thumb:hover {
+    background-color: #a0a0a5;
+    /* border: 4px solid #f4f4f4 */
+}
+
+.ant-empty-image img {
+    border-radius: 8px;
+}
+
+/* set button(top and bottom of the scrollbar) */
+.ant-table-body::-webkit-scrollbar-button {
+    display: none
+}

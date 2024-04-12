@@ -38,6 +38,7 @@ export const AUTHOPTIONS: NextAuthConfig = {
           return {
             id: user.id,
             name: user.name,
+            avatar: user.avatar,
             email: user.email,
           };
         }
@@ -52,7 +53,6 @@ export const AUTHOPTIONS: NextAuthConfig = {
   secret: "BarrySongBlog",
   callbacks: {
     async jwt({ token, trigger, session }) {
-      //第一次登录先暂时用user.name暂存token，因为nextauth不让覆盖字段
       // 获取用户信息之后就可以覆盖
       if (trigger === "update") {
         // Note, that `session` can be any arbitrary object, remember to validate it!

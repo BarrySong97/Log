@@ -36,6 +36,7 @@ export type User = {
   email?: string;
   createdAt: Date;
   updatedAt: Date;
+  avatar: string;
   weibo: string;
   twitter: string;
   bilibli: string;

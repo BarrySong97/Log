@@ -73,6 +73,7 @@ const AppTable: FC<AppTableProps> = ({
               ></Checkbox>
             );
           },
+          columnWidth: 32,
         }}
         {...props}
       />

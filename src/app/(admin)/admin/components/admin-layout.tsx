@@ -3,6 +3,7 @@ import { User } from "@nextui-org/react";
 import "./index.css";
 import React, { FC } from "react";
 import { cn } from "@nextui-org/react";
+import type { User as UserType } from "@/app/api/model";
 import {
   SolarAddSquareLinear,
   SolarBook2Broken,
@@ -17,7 +18,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu } from "antd";
 import { signOut } from "@/auth";
 import { signOutAction } from "../action";
-
+import { useQuery } from "react-query";
 export const IconWrapper = ({
   children,
   className,
@@ -99,18 +100,25 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
   const pathname = usePathname();
 
   const router = useRouter();
+  const { data } = useQuery<UserType>("user", {
+    queryFn: async () => {
+      const res = await fetch("/api/setting").then((res) => res.json());
+      return res.data;
+    },
+  });
   return (
     <main className="flex h-dvh w-full">
       <div className="relative flex h-full  justify-between max-w-[288px] flex-1 flex-col !border-r-small border-divider p-6 transition-[transform,opacity,margin] duration-250 ease-in-out">
         <div>
           <div className="px-2">
             <User
-              name="BarrySong"
+              name={data?.name}
               description="Blog Host"
               className="justify-start"
               avatarProps={{
-                src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+                src: data?.avatar,
                 size: "sm",
+                name: data?.name?.[0].toUpperCase(),
                 isBordered: true,
                 className: "mr-1",
               }}

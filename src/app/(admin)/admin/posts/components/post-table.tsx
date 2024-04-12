@@ -201,10 +201,15 @@ const PostTable: FC<PostsProps> = ({ page }) => {
         </Button>
       </div>
       <AppTable
+        virtual={true}
         pagination={{
           total: data?.length ?? 0,
           pageSize: 10,
           current: page ?? 1,
+        }}
+        scroll={{
+          y: 600,
+          x: 800,
         }}
         rowKey={"id"}
         loading={loading}
