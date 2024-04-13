@@ -5,7 +5,9 @@ export interface CodeBlockProps {}
 const CodeBlock: FC<CodeBlockProps> = () => {
   return (
     <NodeViewWrapper className="code-block">
-      <NodeViewContent as="code" />
+      <pre>
+        <NodeViewContent as="code" />
+      </pre>
     </NodeViewWrapper>
   );
 };

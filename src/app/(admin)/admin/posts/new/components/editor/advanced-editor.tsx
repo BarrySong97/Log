@@ -42,8 +42,6 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
   const [openLink, setOpenLink] = useState(false);
   const [asyncExtensions, setExtensions] = useState<Extensions>(extensions);
   const getShikiHightlight = async () => {
-    console.log(333);
-
     const higlighter = await getHighlighter({
       langs: ["javascript"],
       themes: ["vitesse-dark"],
@@ -60,7 +58,6 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
   useEffect(() => {
     getShikiHightlight();
   }, []);
-  console.log(asyncExtensions);
 
   const isShikiLoaded = asyncExtensions.find((ext) => ext.name === "codeBlock");
   return isShikiLoaded ? (

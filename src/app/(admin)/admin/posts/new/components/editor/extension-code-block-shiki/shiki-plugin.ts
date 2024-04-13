@@ -12,21 +12,27 @@ import { Decoration, DecorationSet } from "@tiptap/pm/view";
  */
 function parseNodes(
   nodes: any[],
-  className: string[] = []
-): { text: string; classes: string[] }[] {
+  className: string[] = [],
+  style: string[] = []
+): { text: string; classes: string[]; styles: string[] }[] {
   return nodes
     .map((node) => {
       const classes = [
         ...className,
-        ...(node.properties ? node.properties.className : []),
+        ...(node.properties ? [node.properties.class ?? ""] : []),
+      ];
+      const styles = [
+        ...style,
+        ...(node.properties ? [node.properties.style ?? ""] : []),
       ];
 
       if (node.children) {
-        return parseNodes(node.children, classes);
+        return parseNodes(node.children, classes, styles);
       }
 
       return {
         text: node.value,
+        styles,
         classes,
       };
     })
@@ -41,7 +47,6 @@ function parseNodes(
  */
 function getHighlightNodes(result: any) {
   // `.value` for lowlight v1, `.children` for lowlight v2
-  console.log(result, "rest");
 
   return result.value || result.children || [];
 }
@@ -64,7 +69,6 @@ function getDecorations({
   // 高亮库
   // 默认语言
   highlighter,
-  defaultLanguage,
 }: {
   doc: ProsemirrorNode;
   highlighter: any;
@@ -82,6 +86,7 @@ function getDecorations({
     const language = block.node.attrs.language || "javascript";
 
     // 如果语言有效且支持，则使用指定语言进行高亮；否则使用自动检测语言进行高亮
+
     const nodes = language
       ? getHighlightNodes(
           highlighter.codeToHast(block.node.textContent, {
@@ -97,16 +102,18 @@ function getDecorations({
         );
 
     // 解析高亮节点
-    console.log(nodes, 333);
+    console.log(nodes);
 
     parseNodes(nodes).forEach((node) => {
       // 节点结束位置
       const to = from + node.text.length;
 
       // 如果节点有样式类，则创建装饰器并添加到装饰器数组中
+
       if (node.classes.length) {
         const decoration = Decoration.inline(from, to, {
           class: node.classes.join(" "),
+          style: node.styles.join(";"),
         });
 
         decorations.push(decoration);
