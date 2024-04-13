@@ -32,7 +32,11 @@ interface EditorProp {
   initialValue?: JSONContent;
   onChange: (value: JSONContent, text: string) => void;
 }
-const shiki = CodeBlockLowShiki;
+const shiki = CodeBlockLowShiki.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(CodeBlock);
+  },
+});
 const Editor = ({ initialValue, onChange }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);

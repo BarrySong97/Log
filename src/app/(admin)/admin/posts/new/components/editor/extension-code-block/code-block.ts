@@ -98,8 +98,6 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   },
 
   renderHTML({ node, HTMLAttributes }) {
-    console.log(node);
-
     return [
       "pre",
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
