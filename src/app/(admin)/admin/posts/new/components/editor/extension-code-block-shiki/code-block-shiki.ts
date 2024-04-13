@@ -1,4 +1,7 @@
-import CodeBlock, { CodeBlockOptions } from "@tiptap/extension-code-block";
+import {
+  CodeBlock,
+  CodeBlockOptions,
+} from "../extension-code-block/code-block";
 
 import { ShikiPlugin } from "./shiki-plugin";
 

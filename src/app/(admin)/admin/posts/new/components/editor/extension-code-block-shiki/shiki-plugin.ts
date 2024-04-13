@@ -102,7 +102,6 @@ function getDecorations({
         );
 
     // 解析高亮节点
-    console.log(nodes);
 
     parseNodes(nodes).forEach((node) => {
       // 节点结束位置

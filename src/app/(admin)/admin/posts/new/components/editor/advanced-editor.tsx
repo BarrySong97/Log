@@ -24,6 +24,7 @@ import { slashCommand, suggestionItems } from "./slash-command";
 import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import { uploadFn } from "./image-upload";
 import { Separator } from "../ui/separator";
+import { languages } from "./languages";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -31,11 +32,7 @@ interface EditorProp {
   initialValue?: JSONContent;
   onChange: (value: JSONContent, text: string) => void;
 }
-const shiki = CodeBlockLowShiki.extend({
-  addNodeView() {
-    return ReactNodeViewRenderer(CodeBlock);
-  },
-});
+const shiki = CodeBlockLowShiki;
 const Editor = ({ initialValue, onChange }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
@@ -43,7 +40,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
   const [asyncExtensions, setExtensions] = useState<Extensions>(extensions);
   const getShikiHightlight = async () => {
     const higlighter = await getHighlighter({
-      langs: ["javascript"],
+      langs: languages,
       themes: ["vitesse-dark"],
     });
     setExtensions([
