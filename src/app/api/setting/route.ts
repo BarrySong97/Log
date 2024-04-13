@@ -8,8 +8,13 @@ import { NextRequest, NextResponse } from "next/server";
  */
 export async function PUT(req: NextRequest) {
   const body = await req.json();
-  const res = await prisma.user.create({
-    data: body,
+  const res = await prisma.user.update({
+    where: {
+      id: body.id,
+    },
+    data: {
+      ...body,
+    },
   });
   return NextResponse.json({
     data: res,

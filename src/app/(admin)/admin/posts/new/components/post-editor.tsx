@@ -16,10 +16,19 @@ const defaultValue = {
 };
 const PostEditor: FC<PostEditorProps> = ({ data }) => {
   const [post, setPost] = useAtom(postAtom);
-  const jsonObject = !data
-    ? JSON.parse(post?.content ?? JSON.stringify(defaultValue))
-    : JSON.parse(data?.content ?? JSON.stringify(defaultValue));
-  return jsonObject ? (
+  const pathname = usePathname();
+  const jsonObject = defaultValue;
+
+  useEffect(() => {
+    if (pathname === "/admin/posts/new") {
+      // setPost({
+      //   // ...post,
+      //   content: JSON.stringify(defaultValue),
+      // });
+    }
+  }, [pathname]);
+
+  return (
     <Editor
       initialValue={jsonObject}
       onChange={(value, text) => {
@@ -38,7 +47,7 @@ const PostEditor: FC<PostEditorProps> = ({ data }) => {
         });
       }}
     />
-  ) : null;
+  );
 };
 
 export default PostEditor;

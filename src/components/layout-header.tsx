@@ -98,7 +98,7 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
                     >
                       {isActive && (
                         <motion.span
-                          layoutId="nav_underline"
+                          // layoutId="nav_underline"
                           className="absolute left-0 top-full block h-[2px] w-full bg-gray-500"
                         ></motion.span>
                       )}

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   EditorRoot,
   EditorCommand,
@@ -15,7 +15,10 @@ import { defaultExtensions } from "./extensions";
 import { NodeSelector } from "./selectors/node-selector";
 import { LinkSelector } from "./selectors/link-selector";
 import { ColorSelector } from "./selectors/color-selector";
-
+import { CodeBlockLowShiki } from "./extension-code-block-shiki/code-block-shiki";
+import { Extensions, ReactNodeViewRenderer } from "@tiptap/react";
+import CodeBlock from "../code-block";
+import { getHighlighter } from "shiki";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 import { handleImageDrop, handleImagePaste } from "novel/plugins";
@@ -28,17 +31,44 @@ interface EditorProp {
   initialValue?: JSONContent;
   onChange: (value: JSONContent, text: string) => void;
 }
+const shiki = CodeBlockLowShiki.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(CodeBlock);
+  },
+});
 const Editor = ({ initialValue, onChange }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
+  const [asyncExtensions, setExtensions] = useState<Extensions>(extensions);
+  const getShikiHightlight = async () => {
+    console.log(333);
 
-  return (
+    const higlighter = await getHighlighter({
+      langs: ["javascript"],
+      themes: ["vitesse-dark"],
+    });
+    setExtensions([
+      ...extensions,
+      shiki.configure({
+        shiki: {
+          higlighter,
+        },
+      }),
+    ]);
+  };
+  useEffect(() => {
+    getShikiHightlight();
+  }, []);
+  console.log(asyncExtensions);
+
+  const isShikiLoaded = asyncExtensions.find((ext) => ext.name === "codeBlock");
+  return isShikiLoaded ? (
     <EditorRoot>
       <EditorContent
         className="border overflow-auto scrollbar relative h-full w-full max-w-screen-xl border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg rounded-md"
         {...(initialValue && { initialContent: initialValue })}
-        extensions={extensions}
+        extensions={asyncExtensions}
         editorProps={{
           handleDOMEvents: {
             keydown: (_view, event) => handleCommandNavigation(event),
@@ -99,6 +129,8 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
         </EditorBubble>
       </EditorContent>
     </EditorRoot>
+  ) : (
+    <>loading</>
   );
 };
 

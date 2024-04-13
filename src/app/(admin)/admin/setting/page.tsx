@@ -2,6 +2,8 @@ import { Input, User } from "@nextui-org/react";
 import { Form } from "antd";
 import React, { FC } from "react";
 import SocialMediaForm from "./components/social-media-form";
+import AvatarUpload from "../components/avatar-uploader";
+import SettingAvatar from "./components/avatar";
 export interface SettingProps {}
 const Setting: FC<SettingProps> = () => {
   return (
@@ -17,17 +19,7 @@ const Setting: FC<SettingProps> = () => {
           </p>
           <div className="flex flex-col relative overflow-hidden height-auto text-foreground box-border outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 shadow-none rounded-large transition-transform-background motion-reduce:transition-none mt-4 bg-default-100">
             <div className="relative flex w-full p-3 flex-auto flex-col place-content-inherit align-items-inherit h-auto break-words text-left overflow-y-auto subpixel-antialiased">
-              <User
-                name="BarrySong"
-                description="Blog Host"
-                className="justify-start"
-                avatarProps={{
-                  src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-                  isBordered: true,
-                  size: "lg",
-                  className: "mr-1",
-                }}
-              />
+              <SettingAvatar />
             </div>
           </div>
         </div>

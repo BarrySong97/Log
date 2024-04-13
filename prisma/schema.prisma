@@ -57,7 +57,7 @@ model User {
     updatedAt DateTime @updatedAt @map(name: "updated_at")
     weibo     String?
     twitter   String?
-    bilibli   String?
+    bilibili  String?
     wechat    String?
     redbook   String?
     password  String

@@ -1,6 +1,6 @@
 import { useRequest } from "ahooks";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 export interface PolicyData {
   policy: string;
   signature: string;
@@ -13,7 +13,7 @@ async function getToken() {
 }
 export default function useOssSignature() {
   const [ossSignature, setOssSignature] = useState<PolicyData>();
-
+  const ref = useRef<any>();
   const { run } = useRequest(() => getToken(), {
     manual: true,
     onSuccess: (data: PolicyData) => {
@@ -24,13 +24,12 @@ export default function useOssSignature() {
 
   useEffect(() => {
     const localString = localStorage.getItem("ossSignature");
-    console.log(localString);
 
     // localstorege存的，用來判斷是否失效
     const localOssSignature = localString ? JSON.parse(localString ?? "") : {};
     if (!localString) {
       run();
-      setInterval(() => {
+      ref.current = setInterval(() => {
         run();
       }, 5 * 60 * 1000);
       return;
@@ -38,6 +37,9 @@ export default function useOssSignature() {
     if (!ossSignature) {
       setOssSignature(localOssSignature);
     }
+    return () => {
+      clearInterval(ref.current);
+    };
   }, []);
 
   return ossSignature;
