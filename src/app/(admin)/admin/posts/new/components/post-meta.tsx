@@ -92,7 +92,6 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
   const [form] = useForm();
   useEffect(() => {
     if (data) {
-      setPost({ ...post, content: data.content });
       form.setFieldsValue({
         title: data.title,
         desc: data.desc,

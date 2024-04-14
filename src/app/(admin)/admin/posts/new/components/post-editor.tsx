@@ -1,11 +1,11 @@
 "use client";
-import { JSONContent } from "novel";
 import React, { FC, useEffect, useState } from "react";
 import Editor from "./editor/advanced-editor";
 import { useAtom } from "jotai";
 import { postAtom } from "../atom";
 import { Post } from "@/app/api/model";
 import { usePathname } from "next/navigation";
+import type { Editor as TitapEdiotr } from "@tiptap/core";
 export interface PostEditorProps {
   data?: Post;
 }
@@ -16,21 +16,19 @@ const defaultValue = {
 };
 const PostEditor: FC<PostEditorProps> = ({ data }) => {
   const [post, setPost] = useAtom(postAtom);
-  const pathname = usePathname();
+  const [editor, seteditor] = useState<TitapEdiotr>();
   const jsonObject = defaultValue;
-
   useEffect(() => {
-    if (pathname === "/admin/posts/new") {
-      // setPost({
-      //   // ...post,
-      //   content: JSON.stringify(defaultValue),
-      // });
+    if (data && editor) {
+      const content = JSON.parse(data.content ?? "{}");
+      editor.commands.setContent(content);
     }
-  }, [pathname]);
+  }, [data, editor]);
 
   return (
     <Editor
       initialValue={jsonObject}
+      onCreate={(Editor) => seteditor(Editor)}
       onChange={(value, text) => {
         const str = JSON.stringify(value);
         // text 清晰空白字符串，并且把url去除

@@ -31,13 +31,14 @@ const extensions = [...defaultExtensions, slashCommand];
 interface EditorProp {
   initialValue?: JSONContent;
   onChange: (value: JSONContent, text: string) => void;
+  onCreate: (editor: any) => void;
 }
 const shiki = CodeBlockLowShiki.extend({
   addNodeView() {
     return ReactNodeViewRenderer(CodeBlock);
   },
 });
-const Editor = ({ initialValue, onChange }: EditorProp) => {
+const Editor = ({ initialValue, onChange, onCreate }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
@@ -77,6 +78,9 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
           attributes: {
             class: `prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full`,
           },
+        }}
+        onCreate={({ editor }) => {
+          onCreate(editor);
         }}
         onUpdate={({ editor }) => {
           onChange(editor.getJSON(), editor.getText());
