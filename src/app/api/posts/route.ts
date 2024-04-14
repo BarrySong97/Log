@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
     data: {
       title: body.title,
       content: body.content,
+      toc: body.toc as any as string,
       cover: body.cover,
       published: body.published,
       desc: body.desc,

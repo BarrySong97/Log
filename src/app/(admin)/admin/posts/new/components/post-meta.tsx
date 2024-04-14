@@ -19,6 +19,7 @@ import ImageUplod from "@/components/image-upload";
 import { createPost, editPost } from "../../../service/post";
 import { useRouter } from "next/navigation";
 import { useForm } from "antd/es/form/Form";
+import Link from "next/link";
 export interface PostMetaProps {
   data?: Post;
 }
@@ -102,8 +103,8 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
     }
   }, [data]);
   return (
-    <>
-      <div className="text-sm font-semibold ">文章信息</div>
+    <div className="w-[300px]">
+      <div className="text-sm font-semibold mb-4">文章信息</div>
       <Form<CreatePost>
         onFinish={async (values) => {
           values.tagsId = Array.from(values.tagsId);
@@ -113,13 +114,14 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
               ...values,
               content: post.content,
               textCount: post.textCount,
+              toc: JSON.stringify(post.toc),
               desc: !values.desc ? post.desc : values.desc,
             };
             if (data) {
-              await editPost(data.id, requestBody);
+              await editPost(data.id, requestBody as any as CreatePost);
               message.success("更新成功");
             } else {
-              await createPost(requestBody);
+              await createPost(requestBody as any as CreatePost);
               message.success("创建成功");
             }
             router.push("/admin/posts");
@@ -130,6 +132,7 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
               desc: "",
               textCount: 0,
               content: "",
+              toc: [],
               tagsId: [],
             });
           } catch (error) {
@@ -196,9 +199,26 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
           <Textarea label="简介" radius="sm" size="sm" variant="flat" />
         </Form.Item>
       </Form>
-      <div className="text-sm font-semibold ">目录</div>
-    </>
+      <div className="text-sm font-semibold mt-4 mb-4">目录</div>
+      <div>
+        {post?.toc.map((item) => (
+          <div key={item.text} className="flex text-sm items-center gap-2">
+            <a
+              href={``}
+              className="mb-2"
+              onClick={() => {
+                router.replace(`#${item.id}`);
+              }}
+              style={{
+                marginLeft: (item.level - 1) * 10,
+              }}
+            >
+              {item.text}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
-
 export default PostMeta;

@@ -30,7 +30,7 @@ const extensions = [...defaultExtensions, slashCommand];
 
 interface EditorProp {
   initialValue?: JSONContent;
-  onChange: (value: JSONContent, text: string) => void;
+  onChange: (value: JSONContent, text: string, html: string) => void;
   editabled?: boolean;
   onCreate: (editor: any) => void;
 }
@@ -90,7 +90,7 @@ const Editor = ({
           onCreate(editor);
         }}
         onUpdate={({ editor }) => {
-          onChange(editor.getJSON(), editor.getText());
+          onChange(editor.getJSON(), editor.getText(), editor.getHTML());
         }}
         slotAfter={<ImageResizer />}
       >

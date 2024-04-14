@@ -11,6 +11,7 @@ import {
 } from "novel/extensions";
 import { UploadImagesPlugin } from "novel/plugins";
 import { cx } from "class-variance-authority";
+import { Heading } from "./extension-heading/heading";
 const aiHighlight = AIHighlight;
 const placeholder = Placeholder;
 const tiptapLink = TiptapLink.configure({
@@ -112,4 +113,5 @@ export const defaultExtensions = [
   taskItem,
   horizontalRule,
   aiHighlight,
+  Heading,
 ];

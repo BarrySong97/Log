@@ -40,80 +40,82 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
 
   return (
     <>
-      <div className="z-[100] sticky top-0 backdrop-blur-lg py-4 backdrop-saturate-150 bg-background/70 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <div className="items-center  fixed bottom-0 left-0 basis-[100%] flex h-48 w-full   justify-between bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <div className="flex items-center gap-4">
-            {!isHomePage && (
-              <Link href={"/"}>
-                <motion.img
-                  src="/blogger.jpg"
-                  alt="blogger"
-                  layoutId={"blogger"}
-                  className={`object-cover rounded-full w-[48px] h-[48px] `}
-                />
-              </Link>
-            )}
-            <div>
-              <NextUILink
-                className="text-2xl font-semibold"
-                color="foreground"
-                href="/"
-              >
-                BarrySong
-              </NextUILink>
+      <div className="z-[100]  sticky top-0 backdrop-blur-lg py-4 backdrop-saturate-150 bg-background/70  w-full  font-mono text-sm lg:flex">
+        <div className="w-[64rem] flex mx-auto items-center justify-between">
+          <div className="items-center   basis-[100%] flex h-48 w-full   justify-between bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
+            <div className="flex items-center gap-4">
               {!isHomePage && (
-                <div className="flex  -ml-2">
-                  {contactList.map((v) => {
-                    return (
-                      <Button
-                        className="h-unit-9"
-                        as={"a"}
-                        key={v.title}
-                        isIconOnly
-                        variant="light"
-                      >
-                        <motion.img
-                          src={v.icon}
-                          height={16}
-                          width={16}
-                          alt={v.title}
-                        />
-                      </Button>
-                    );
-                  })}
-                </div>
+                <Link href={"/"}>
+                  <motion.img
+                    src="/blogger.jpg"
+                    alt="blogger"
+                    layoutId={"blogger"}
+                    className={`object-cover rounded-full w-[48px] h-[48px] `}
+                  />
+                </Link>
               )}
+              <div>
+                <NextUILink
+                  className="text-2xl font-semibold"
+                  color="foreground"
+                  href="/"
+                >
+                  BarrySong
+                </NextUILink>
+                {!isHomePage && (
+                  <div className="flex  -ml-2">
+                    {contactList.map((v) => {
+                      return (
+                        <Button
+                          className="h-unit-9"
+                          as={"a"}
+                          key={v.title}
+                          isIconOnly
+                          variant="light"
+                        >
+                          <motion.img
+                            src={v.icon}
+                            height={16}
+                            width={16}
+                            alt={v.title}
+                          />
+                        </Button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="flex gap-4 self-end justify-between pb-1">
-            {!isHomePage
-              ? navMenu.map((item) => {
-                  const isActive = pathname === item.href;
-                  return (
-                    <Link
-                      key={item.title}
-                      href={item.href}
-                      className="text-base relative font-sans"
-                      rel="noopener noreferrer"
-                    >
-                      {isActive && (
-                        <motion.span
-                          // layoutId="nav_underline"
-                          className="absolute left-0 top-full block h-[2px] w-full bg-gray-500"
-                        ></motion.span>
-                      )}
-                      <span
-                        style={{ zIndex: 100 }}
-                        className={`tracking-widest text-medium hover:text-default-900 ${
-                          isActive ? "text-black" : "text-default-500"
-                        }`}
+            <div className="flex gap-4 self-end justify-between pb-1">
+              {!isHomePage
+                ? navMenu.map((item) => {
+                    const isActive = pathname === item.href;
+                    return (
+                      <Link
+                        key={item.title}
+                        href={item.href}
+                        className="text-base relative font-sans"
+                        rel="noopener noreferrer"
                       >
-                        {item.title}
-                      </span>
-                    </Link>
-                  );
-                })
-              : null}
+                        {isActive && (
+                          <motion.span
+                            // layoutId="nav_underline"
+                            className="absolute left-0 top-full block h-[2px] w-full bg-gray-500"
+                          ></motion.span>
+                        )}
+                        <span
+                          style={{ zIndex: 100 }}
+                          className={`tracking-widest text-medium hover:text-default-900 ${
+                            isActive ? "text-black" : "text-default-500"
+                          }`}
+                        >
+                          {item.title}
+                        </span>
+                      </Link>
+                    );
+                  })
+                : null}
+            </div>
           </div>
         </div>
       </div>

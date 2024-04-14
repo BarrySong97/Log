@@ -20,6 +20,7 @@ export type Project = {
 export type Post = {
   id: string;
   cover?: string;
+  toc: string;
   title: string;
   desc: string;
   content?: string;

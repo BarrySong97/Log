@@ -39,6 +39,7 @@ model Post {
     title     String
     desc      String
     content   String?
+    toc       String?  @default("")
     textCount Int      @map(name: "text_count")
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")

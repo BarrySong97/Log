@@ -93,6 +93,7 @@ export async function PUT(
       content: body.content,
       cover: body.cover,
       published: body.published,
+      toc: body.toc as any as string,
       desc: body.desc,
       textCount: body.textCount,
       tags: {
