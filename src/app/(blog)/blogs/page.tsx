@@ -1,13 +1,16 @@
 import React, { FC } from "react";
 import { Image } from "@nextui-org/react";
 import Link from "next/link";
-import { getPostList } from "@/app/(admin)/admin/service/post";
 import { Post } from "@/app/api/model";
 export interface BlogsProps {}
 const Blogs: FC<BlogsProps> = async () => {
-  const { data } = await fetch(`${process.env.API_PATH}/api/posts`).then(
-    (res) => res.json()
-  );
+  const { data } = await fetch(
+    `${process.env.API_PATH}/api/posts?published=1`,
+    {
+      cache: "no-store",
+    }
+  ).then((res) => res.json());
+
   return (
     <div className="scrollElement max-w-5xl  w-full py-8 pb-4  px-16">
       <div className="font-bold text-2xl mb-4">共 {data.length} 篇文章</div>

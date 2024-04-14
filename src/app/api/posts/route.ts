@@ -2,18 +2,38 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db";
 import { CreatePost } from "@/app/(admin)/admin/posts/new/atom";
 
-export async function GET() {
-  const res = await prisma.post.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      tags: true,
-    },
-  });
-  return NextResponse.json({
-    data: res,
-  });
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const published = !!Number(searchParams.get("published"));
+
+  if (searchParams.get("published")) {
+    const res = await prisma.post.findMany({
+      where: {
+        published: published,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        tags: true,
+      },
+    });
+    return NextResponse.json({
+      data: res,
+    });
+  } else {
+    const res = await prisma.post.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        tags: true,
+      },
+    });
+    return NextResponse.json({
+      data: res,
+    });
+  }
 }
 export async function POST(req: NextRequest) {
   const body: CreatePost = await req.json();

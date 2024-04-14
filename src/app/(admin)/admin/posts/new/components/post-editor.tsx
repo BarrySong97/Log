@@ -8,13 +8,14 @@ import { usePathname } from "next/navigation";
 import type { Editor as TitapEdiotr } from "@tiptap/core";
 export interface PostEditorProps {
   data?: Post;
+  editabled?: boolean;
 }
 
 const defaultValue = {
   type: "doc",
   content: [],
 };
-const PostEditor: FC<PostEditorProps> = ({ data }) => {
+const PostEditor: FC<PostEditorProps> = ({ data, editabled = true }) => {
   const [post, setPost] = useAtom(postAtom);
   const [editor, seteditor] = useState<TitapEdiotr>();
   const jsonObject = defaultValue;
@@ -28,6 +29,7 @@ const PostEditor: FC<PostEditorProps> = ({ data }) => {
   return (
     <Editor
       initialValue={jsonObject}
+      editabled
       onCreate={(Editor) => seteditor(Editor)}
       onChange={(value, text) => {
         const str = JSON.stringify(value);

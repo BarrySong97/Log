@@ -31,6 +31,7 @@ const extensions = [...defaultExtensions, slashCommand];
 interface EditorProp {
   initialValue?: JSONContent;
   onChange: (value: JSONContent, text: string) => void;
+  editabled?: boolean;
   onCreate: (editor: any) => void;
 }
 const shiki = CodeBlockLowShiki.extend({
@@ -38,7 +39,12 @@ const shiki = CodeBlockLowShiki.extend({
     return ReactNodeViewRenderer(CodeBlock);
   },
 });
-const Editor = ({ initialValue, onChange, onCreate }: EditorProp) => {
+const Editor = ({
+  editabled,
+  initialValue,
+  onChange,
+  onCreate,
+}: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
@@ -65,7 +71,7 @@ const Editor = ({ initialValue, onChange, onCreate }: EditorProp) => {
   return isShikiLoaded ? (
     <EditorRoot>
       <EditorContent
-        className="border overflow-auto scrollbar relative h-full w-full max-w-screen-xl border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg rounded-md"
+        className="blog-content-wrapper border overflow-auto scrollbar relative h-full w-full  border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg rounded-md"
         {...(initialValue && { initialContent: initialValue })}
         extensions={asyncExtensions}
         editorProps={{
@@ -79,6 +85,7 @@ const Editor = ({ initialValue, onChange, onCreate }: EditorProp) => {
             class: `prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full`,
           },
         }}
+        editable
         onCreate={({ editor }) => {
           onCreate(editor);
         }}

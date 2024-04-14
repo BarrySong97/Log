@@ -10,25 +10,42 @@ import { CreatePost } from "@/app/(admin)/admin/posts/new/atom";
  * @returns
  */
 export async function GET(
-  _: any,
+  request: NextRequest,
   {
     params,
   }: {
     params: { id: string };
   }
 ) {
-  const res = await prisma.post.findFirst({
-    where: {
-      id: params.id,
-    },
-    include: {
-      tags: true,
-    },
-  });
+  const searchParams = request.nextUrl.searchParams;
+  const published = !!Number(searchParams.get("published"));
 
-  return NextResponse.json({
-    data: res,
-  });
+  if (searchParams.get("published")) {
+    const res = await prisma.post.findFirst({
+      where: {
+        id: params.id,
+        published,
+      },
+      include: {
+        tags: true,
+      },
+    });
+    return NextResponse.json({
+      data: res,
+    });
+  } else {
+    const res = await prisma.post.findFirst({
+      where: {
+        id: params.id,
+      },
+      include: {
+        tags: true,
+      },
+    });
+    return NextResponse.json({
+      data: res,
+    });
+  }
 }
 /**
  *

@@ -213,3 +213,12 @@
 .ant-table-body::-webkit-scrollbar-button {
     display: none
 }
+
+/* .prose {
+    max-width: 100% !important;
+} */
+
+.blog-view .blog-content-wrapper {
+    box-shadow: none;
+    border: none;
+}
