@@ -38,19 +38,21 @@ const Blogs: FC<BlogsProps> = async () => {
               );
             })}
           </div>
-          <div className="flex">
-            <div className=" mr-6">
-              <Image
-                className="object-cover rounded-md  mt-2"
-                src={article.cover}
-                width={175}
-                height={98}
-                alt=""
-              />
-            </div>
-            <p className="text-foreground text-base text-justify">
+          <div className="flex ">
+            <p className="text-foreground text-base text-justify flex-1">
               {article.desc}
             </p>
+            {article.cover ? (
+              <div className=" mr-6">
+                <Image
+                  className="object-cover w-[190px]  h-[105px] rounded-md  mt-2"
+                  src={article.cover}
+                  width={175}
+                  height={98}
+                  alt=""
+                />
+              </div>
+            ) : null}
           </div>
         </div>
       ))}

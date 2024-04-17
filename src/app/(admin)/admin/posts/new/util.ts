@@ -50,7 +50,7 @@ function replacePreCodeWithHighlightedHtml(
     const lang = codeElement?.className.split("language-")[1];
     preElement.outerHTML = newContent.replace(
       "shiki vitesse-dark",
-      `shiki vitesse-dark language-${lang}`
+      `shiki vitesse-dark scrollbar language-${lang ?? "javascript"}`
     );
   });
   const body = doc.body.innerHTML;

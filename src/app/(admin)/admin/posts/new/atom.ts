@@ -1,6 +1,11 @@
 import { Post } from "@/app/api/model";
 import { atom } from "jotai";
-export type TOC = Array<{ text: string; level: number; id: string }>;
+export type TOCItem = {
+  text: string;
+  level: number;
+  id: string;
+};
+export type TOC = Array<TOCItem>;
 export type CreatePost = Omit<
   Post,
   "id" | "createdAt" | "updatedAt" | "tags"

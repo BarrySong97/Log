@@ -32,19 +32,22 @@ const BlogDetail: FC<BlogDetailProps> = async ({ params }) => {
   });
   return (
     <div className=" w-full py-8 pt-10 pb-4  relative px-16 z-50">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex justify-center mb-8">
-          <Image
-            isBlurred
-            classNames={{
-              blurredImg: "scale-[1.03]",
-            }}
-            src={data?.cover}
-            alt="NextUI Album Cover"
-            className="m-1 w-full object-cover"
-          />
-        </div>
-        <div className="flex  gap-2 text-small text-default-500 justify-end mb-8">
+      <div className="max-w-5xl mx-auto mb-4">
+        {data.cover ? (
+          <div className="flex justify-center mb-8">
+            <Image
+              isBlurred
+              classNames={{
+                blurredImg: "scale-[1.03]",
+              }}
+              src={data?.cover}
+              alt="NextUI Album Cover"
+              className="m-1 w-full object-cover"
+            />
+          </div>
+        ) : null}
+        <div className="text-6xl font-bold mb-4">{data.title}</div>
+        <div className="flex  gap-2 text-small text-default-500 justify-start ">
           {data?.tags.map((tag: Tag) => {
             return (
               <Link
@@ -66,7 +69,7 @@ const BlogDetail: FC<BlogDetailProps> = async ({ params }) => {
         </div>
         <div
           className={`sticky ${
-            toc.length ? "-mr-40" : "-mr-16"
+            toc.length ? "-mr-32" : "-mr-16"
           } top-[120px] mt-[120px] h-[calc(100vh-6rem-4.5rem-150px-120px)]`}
         >
           <div>
