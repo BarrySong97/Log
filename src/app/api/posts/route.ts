@@ -45,7 +45,9 @@ export async function POST(req: NextRequest) {
       toc: body.toc as any as string,
       cover: body.cover,
       published: body.published,
+      html: body.html,
       desc: body.desc,
+      about: body.about,
       textCount: body.textCount,
       tags: {
         connect: tagsId.map((id) => ({ id })),

@@ -20,9 +20,11 @@ export type Project = {
 export type Post = {
   id: string;
   cover?: string;
+  about: boolean;
   toc: string;
   title: string;
   desc: string;
+  html: string;
   content?: string;
   published: boolean;
   textCount: number;

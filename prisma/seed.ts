@@ -13,7 +13,6 @@ async function main() {
       password,
     },
   });
-  console.log(admin);
 }
 main()
   .then(async () => {

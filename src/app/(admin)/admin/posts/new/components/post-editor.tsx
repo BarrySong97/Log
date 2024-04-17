@@ -42,7 +42,7 @@ function parseHTMLToTOC(htmlString: string): TOC {
     }
     // 提取标题文本
     const text = header.textContent?.trim() ?? "";
-    const id = header.getAttribute("data-id") ?? "";
+    const id = header.getAttribute("id") ?? "";
     // 将层级和标题文本添加到toc数组中
     toc.push({ level, text, id });
   });
@@ -56,14 +56,16 @@ const PostEditor: FC<PostEditorProps> = ({ data, editabled = true }) => {
   useEffect(() => {
     if (data?.content && editor) {
       const content = JSON.parse(data.content ?? "{}");
-      editor.commands.setContent(content);
+      setTimeout(() => {
+        editor.commands.setContent(content);
+      });
     }
   }, [data, editor]);
 
   return (
     <Editor
       initialValue={jsonObject}
-      editabled
+      editabled={editabled}
       onCreate={(Editor) => seteditor(Editor)}
       onChange={(value, text, html) => {
         const str = JSON.stringify(value);
@@ -74,13 +76,13 @@ const PostEditor: FC<PostEditorProps> = ({ data, editabled = true }) => {
         text = text.replace(/\s/g, "");
 
         const toc = parseHTMLToTOC(html ?? "");
-        console.log(toc);
 
         setPost({
           ...post,
           desc: text.slice(0, 256),
           textCount: text?.length ?? 0,
-          toc: toc ?? [],
+          toc: (toc ?? []) as any,
+          html: html,
           content: str,
         });
       }}

@@ -1,9 +1,12 @@
 import React, { FC } from "react";
 import { Image } from "@nextui-org/react";
-import Link from "next/link";
 import { Post, Tag } from "@/app/api/model";
-import PostEditor from "@/app/(admin)/admin/posts/new/components/post-editor";
 import { TOC } from "@/app/(admin)/admin/posts/new/atom";
+import Toc from "./components/toc";
+import Link from "next/link";
+import parse, { domToReact } from "html-react-parser";
+import CodeBlock from "./components/code-block";
+import Content from "./components/content";
 export interface BlogDetailProps {
   params: { id: string };
 }
@@ -15,7 +18,18 @@ const BlogDetail: FC<BlogDetailProps> = async ({ params }) => {
       cache: "no-store",
     }
   ).then((res) => res.json());
-  const toc: TOC = JSON.parse(data?.toc ?? "{}");
+
+  const toc: TOC = JSON.parse(data?.toc ?? "[]");
+  const postElement = parse(data.html, {
+    replace(domNode) {
+      const codeElement = domNode.children?.[0];
+
+      if (domNode.name === "pre" && codeElement?.name === "code") {
+        const lang = domNode.attribs?.class?.split("language-")[1];
+        return <CodeBlock language={lang}>{domToReact([domNode])}</CodeBlock>;
+      }
+    },
+  });
   return (
     <div className=" w-full py-8 pt-10 pb-4  relative px-16 z-50">
       <div className="max-w-5xl mx-auto">
@@ -47,24 +61,16 @@ const BlogDetail: FC<BlogDetailProps> = async ({ params }) => {
         </div>
       </div>
       <div className="blog-view mx-auto justify-center   relative flex min-h-[120px] ">
-        <div className="max-w-5xl mr-12">
-          <PostEditor editabled={false} data={data} />
+        <div className="max-w-5xl mr-12 basis-[100%] prose break-all">
+          <Content>{postElement}</Content>
         </div>
-        <div className="sticky -mr-40 top-[120px] mt-[120px] h-[calc(100vh-6rem-4.5rem-150px-120px)]">
+        <div
+          className={`sticky ${
+            toc.length ? "-mr-40" : "-mr-16"
+          } top-[120px] mt-[120px] h-[calc(100vh-6rem-4.5rem-150px-120px)]`}
+        >
           <div>
-            {toc.map((item) => (
-              <div key={item.text} className="flex text-sm items-center gap-2">
-                <Link
-                  href={`#${item.id}`}
-                  className="mb-2"
-                  style={{
-                    marginLeft: (item.level - 1) * 10,
-                  }}
-                >
-                  {item.text}
-                </Link>
-              </div>
-            ))}
+            <Toc data={toc} />
           </div>
         </div>
       </div>

@@ -20,6 +20,7 @@ import { createPost, editPost } from "../../../service/post";
 import { useRouter } from "next/navigation";
 import { useForm } from "antd/es/form/Form";
 import Link from "next/link";
+import { compositionHighlightCode } from "../util";
 export interface PostMetaProps {
   data?: Post;
 }
@@ -97,8 +98,13 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
         title: data.title,
         desc: data.desc,
         published: data.published,
+
         cover: data.cover,
         tagsId: data.tags.map((v) => v.id),
+      });
+      setPost({
+        ...post,
+        toc: JSON.parse(data.toc ?? "[]"),
       });
     }
   }, [data]);
@@ -110,13 +116,16 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
           values.tagsId = Array.from(values.tagsId);
           setCreateLoading(true);
           try {
+            const highlight = await compositionHighlightCode(post.html);
             const requestBody = {
               ...values,
               content: post.content,
+              html: highlight,
               textCount: post.textCount,
               toc: JSON.stringify(post.toc),
               desc: !values.desc ? post.desc : values.desc,
             };
+
             if (data) {
               await editPost(data.id, requestBody as any as CreatePost);
               message.success("更新成功");
@@ -131,8 +140,10 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
               title: "",
               desc: "",
               textCount: 0,
+              about: false,
               content: "",
-              toc: [],
+              html: "",
+              toc: [] as any,
               tagsId: [],
             });
           } catch (error) {
@@ -149,16 +160,28 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
               {data ? "更新" : "创建"}
             </Button>
           </Form.Item>
-          <Form.Item
-            trigger="onValueChange"
-            valuePropName="isSelected"
-            noStyle
-            name="published"
-          >
-            <Checkbox className="mb-4" color="primary">
-              发布
-            </Checkbox>
-          </Form.Item>
+          <div className="flex gap-2">
+            <Form.Item
+              trigger="onValueChange"
+              valuePropName="isSelected"
+              noStyle
+              name="about"
+            >
+              <Checkbox className="mb-4" color="primary">
+                关于我
+              </Checkbox>
+            </Form.Item>
+            <Form.Item
+              trigger="onValueChange"
+              valuePropName="isSelected"
+              noStyle
+              name="published"
+            >
+              <Checkbox className="mb-4" color="primary">
+                发布
+              </Checkbox>
+            </Form.Item>
+          </div>
           {/* <Button color="danger">删除</Button> */}
         </div>
         <Form.Item noStyle name="cover">
@@ -201,10 +224,10 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
       </Form>
       <div className="text-sm font-semibold mt-4 mb-4">目录</div>
       <div>
-        {post?.toc.map((item) => (
+        {post?.toc?.map((item) => (
           <div key={item.text} className="flex text-sm items-center gap-2">
             <a
-              href={``}
+              href={`#${item.id}`}
               className="mb-2"
               onClick={() => {
                 router.replace(`#${item.id}`);

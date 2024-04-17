@@ -68,8 +68,6 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       language: {
         default: null,
         parseHTML: (element) => {
-          console.log(3333);
-
           const { languageClassPrefix } = this.options;
           const classNames = [...(element.firstElementChild?.classList || [])];
           const languages = classNames

@@ -222,3 +222,7 @@
     box-shadow: none;
     border: none;
 }
+
+.blog-view .shiki {
+    margin: 0 !important;
+}

@@ -71,7 +71,7 @@ const Editor = ({
   return isShikiLoaded ? (
     <EditorRoot>
       <EditorContent
-        className="blog-content-wrapper border overflow-auto scrollbar relative h-full w-full  border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg rounded-md"
+        className="blog-content-wrapper border max-w-7xl overflow-auto scrollbar relative h-full w-full  border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg rounded-md"
         {...(initialValue && { initialContent: initialValue })}
         extensions={asyncExtensions}
         editorProps={{
@@ -85,7 +85,7 @@ const Editor = ({
             class: `prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full`,
           },
         }}
-        editable
+        editable={editabled}
         onCreate={({ editor }) => {
           onCreate(editor);
         }}
@@ -139,7 +139,9 @@ const Editor = ({
       </EditorContent>
     </EditorRoot>
   ) : (
-    <>loading</>
+    <div className="blog-content-wrapper flex justify-center items-center border max-w-7xl overflow-auto scrollbar relative h-full w-full  border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg rounded-md">
+      编辑器加载中...
+    </div>
   );
 };
 

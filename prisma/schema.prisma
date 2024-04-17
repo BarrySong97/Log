@@ -40,7 +40,9 @@ model Post {
     desc      String
     content   String?
     toc       String?  @default("")
+    html      String   @default("")
     textCount Int      @map(name: "text_count")
+    about     Boolean  @default(false)
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
     published Boolean  @default(false)

@@ -3,6 +3,7 @@ import { mergeAttributes, Node, textblockTypeInputRule } from "@tiptap/core";
 export type Level = 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface HeadingOptions {
+  index: number;
   levels: Level[];
   HTMLAttributes: Record<string, any>;
 }
@@ -29,6 +30,7 @@ export const Heading = Node.create<HeadingOptions>({
     return {
       levels: [1, 2, 3, 4, 5, 6],
       HTMLAttributes: {},
+      index: 1,
     };
   },
 
@@ -54,15 +56,17 @@ export const Heading = Node.create<HeadingOptions>({
     }));
   },
 
-  renderHTML({ node, HTMLAttributes }) {
+  renderHTML({ node, HTMLAttributes, ...props }) {
     const hasLevel = this.options.levels.includes(node.attrs.level);
     const level = hasLevel ? node.attrs.level : this.options.levels[0];
+    // console.log(node, HTMLAttributes, props);
+    const nodeSize = node.nodeSize;
 
     return [
       `h${level}`,
       {
         ...mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-        "data-id": `heading-${new Date().getTime()}`,
+        id: `heading-${nodeSize}-${encodeURIComponent(node.textContent)}`,
       },
       0,
     ];

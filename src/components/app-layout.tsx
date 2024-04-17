@@ -8,7 +8,8 @@ const AppLayout: FC<AppLayoutProps> = ({ children }) => {
   const pathname = usePathname();
   return (
     <main
-      className={`flex    min-h-screen flex-col items-center ${
+      id="page-container"
+      className={`flex     min-h-screen flex-col items-center ${
         pathname !== "/" ? "" : "justify-between"
       } p-24`}
     >
