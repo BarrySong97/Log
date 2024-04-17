@@ -46,30 +46,32 @@ const BlogDetail: FC<BlogDetailProps> = async ({ params }) => {
             />
           </div>
         ) : null}
-        <div className="text-6xl font-bold mb-4">{data.title}</div>
-        <div className="flex  gap-2 text-small text-default-500 justify-start ">
-          {data?.tags.map((tag: Tag) => {
-            return (
-              <Link
-                key={tag.id}
-                className="hover:underline underline-offset-4"
-                href={"/"}
-              >
-                #{tag.title}
-              </Link>
-            );
-          })}
-          <div>创建时间: 2022-12-13 22:33</div>
-          <div>更新时间: 2022-12-13 22:33</div>
+        <div className="px-2">
+          <div className="text-6xl font-bold mb-4 ">{data.title}</div>
+          <div className="flex  gap-2 text-small text-default-500 justify-start pl-1">
+            {data?.tags.map((tag: Tag) => {
+              return (
+                <Link
+                  key={tag.id}
+                  className="hover:underline underline-offset-4"
+                  href={"/"}
+                >
+                  #{tag.title}
+                </Link>
+              );
+            })}
+            <div>创建时间: 2022-12-13 22:33</div>
+            <div>更新时间: 2022-12-13 22:33</div>
+          </div>
         </div>
       </div>
       <div className="blog-view mx-auto justify-center   relative flex min-h-[120px] ">
-        <div className="max-w-5xl mr-12 basis-[100%] prose break-all">
+        <div className="max-w-5xl mr-12 pr-2 basis-[100%] prose break-all">
           <Content>{postElement}</Content>
         </div>
         <div
           className={`sticky ${
-            toc.length ? "-mr-32" : "-mr-16"
+            toc.length ? "-mr-40" : "-mr-16"
           } top-[120px] mt-[120px] h-[calc(100vh-6rem-4.5rem-150px-120px)]`}
         >
           <div>
