@@ -1,8 +1,8 @@
 import prisma from "@/db";
 import { NextResponse } from "next/server";
-export const dynamic = "force-dynamic"; // defaults to auto
+import { auth } from "@/auth";
 
-export async function GET() {
+export const GET = auth(async () => {
   const postCount = await prisma.post.count();
   const projectCount = await prisma.project.count();
   const textCount = await prisma.post.aggregate({
@@ -18,4 +18,4 @@ export async function GET() {
       textCount: textCount._sum.textCount ?? 0,
     },
   });
-}
+});

@@ -1,13 +1,13 @@
 import prisma from "@/db";
 import { NextRequest, NextResponse } from "next/server";
 import { deleteFile } from "../../file/upload/route";
-
+import { auth } from "@/auth";
 /**
  *
  * @param req 更新用户头像
  * @returns
  */
-export async function PUT(req: NextRequest) {
+export const PUT = auth(async (req: NextRequest) => {
   const body = await req.json();
   const old = await prisma.user.findFirst({
     where: {
@@ -28,4 +28,4 @@ export async function PUT(req: NextRequest) {
   return NextResponse.json({
     data: res,
   });
-}
+});

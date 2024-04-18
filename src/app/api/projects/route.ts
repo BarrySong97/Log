@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db";
+import { auth } from "@/auth";
 
 export async function GET() {
   const res = await prisma.project.findMany({
@@ -12,7 +13,7 @@ export async function GET() {
   });
 }
 
-export async function POST(req: NextRequest) {
+export const POST = auth(async (req: NextRequest) => {
   const body = await req.json();
   const res = await prisma.project.create({
     data: body,
@@ -20,4 +21,4 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     data: res,
   });
-}
+});

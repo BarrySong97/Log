@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { auth } from "@/auth";
 import prisma from "@/db";
 import { deleteFile } from "../../file/upload/route";
 /**
@@ -31,33 +32,36 @@ export async function GET(
  * @param param1
  * @returns
  */
-export async function DELETE(
-  _: any,
-  {
-    params,
-  }: {
-    params: { id: string };
+export const DELETE = auth(
+  // @ts-ignore
+  async (
+    _: any,
+    {
+      params,
+    }: {
+      params: { id: string };
+    }
+  ) => {
+    const res = await prisma.project.delete({
+      where: {
+        id: params.id,
+      },
+    });
+    if (res.icon) {
+      try {
+        deleteFile(res.icon);
+      } catch (error) {}
+    }
+    return NextResponse.json({
+      data: res,
+    });
   }
-) {
-  const res = await prisma.project.delete({
-    where: {
-      id: params.id,
-    },
-  });
-  if (res.icon) {
-    try {
-      deleteFile(res.icon);
-    } catch (error) {}
-  }
-  return NextResponse.json({
-    data: res,
-  });
-}
+);
 /**
  *
  * @returns 更新文章
  */
-export async function PUT(req: NextRequest) {
+export const PUT = auth(async (req: NextRequest) => {
   const body = await req.json();
   const res = await prisma.project.update({
     where: { id: body.id },
@@ -68,4 +72,4 @@ export async function PUT(req: NextRequest) {
   return NextResponse.json({
     data: res,
   });
-}
+});

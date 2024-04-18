@@ -1,5 +1,6 @@
 import OSS from "ali-oss";
 
+import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
 export const config = {
@@ -8,13 +9,13 @@ export const config = {
   bucket: process.env.ALI_Bucket ?? "",
 };
 const client = new OSS(config);
-export async function deleteFile(url: string) {
+export const deleteFile = async (url: string) => {
   const parts = url.split(".aliyuncs.com/");
   const result = parts[1]; // 这将获取到"/测试3"
 
   const res = await client.delete(result);
-}
-export async function GET(request: Request): Promise<NextResponse> {
+};
+export const GET = auth(async (request: Request) => {
   try {
     const date = new Date();
     date.setDate(date.getDate() + 1);
@@ -50,9 +51,9 @@ export async function GET(request: Request): Promise<NextResponse> {
       { status: 400 } // The webhook will retry 5 times waiting for a 200
     );
   }
-}
+});
 
-export async function DELETE(request: Request) {
+export const DELETE = auth(async (request: Request) => {
   try {
     const body = await request.json();
     await deleteFile(body.url);
@@ -63,4 +64,4 @@ export async function DELETE(request: Request) {
       { status: 400 } // The webhook will retry 5 times waiting for a 200
     );
   }
-}
+});

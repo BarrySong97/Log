@@ -32,6 +32,7 @@ export async function GET(
  * @returns
  */
 export const DELETE = auth(
+  // @ts-ignore
   async (req: NextRequest, { params }: { params: { id: string } }) => {
     const res = await prisma.tag.delete({ where: { id: params.id } });
     return NextResponse.json({ data: res });
@@ -42,6 +43,7 @@ export const DELETE = auth(
  * @returns 更新Tag
  */
 export const PUT = auth(
+  // @ts-ignore
   async (req: NextRequest, { params }: { params: { id: string } }) => {
     const body = await req.json();
     const res = await prisma.tag.update({

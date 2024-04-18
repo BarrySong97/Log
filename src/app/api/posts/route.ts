@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db";
 import { CreatePost } from "@/app/(admin)/admin/posts/new/atom";
-
+import { auth } from "@/auth";
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const published = !!Number(searchParams.get("published"));
@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
     const res = await prisma.post.findMany({
       where: {
         published: published,
+        about: false,
       },
       orderBy: {
         createdAt: "desc",
@@ -35,7 +36,7 @@ export async function GET(request: NextRequest) {
     });
   }
 }
-export async function POST(req: NextRequest) {
+export const POST = auth(async (req: NextRequest) => {
   const body: CreatePost = await req.json();
   const tagsId = body.tagsId;
   const res = await prisma.post.create({
@@ -58,4 +59,4 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     data: res,
   });
-}
+});

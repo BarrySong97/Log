@@ -17,6 +17,10 @@ const AppTable: FC<AppTableProps> = ({
   const { onHeaderRow } = props;
   const router = useRouter();
 
+  const total = Math.ceil(
+    (pagination?.total ?? 0) / (pagination?.pageSize ?? 10)
+  );
+
   return (
     <div className="p-4 z-0 flex items-center flex-col relative justify-between gap-4 bg-content1 overflow-auto rounded-large shadow-small w-full">
       <Table
@@ -77,13 +81,11 @@ const AppTable: FC<AppTableProps> = ({
         }}
         {...props}
       />
-      {pagination ? (
+      {pagination && total ? (
         <Pagination
           className="mt-1"
           showControls
-          total={Math.ceil(
-            (pagination?.total ?? 0) / (pagination?.pageSize ?? 10)
-          )}
+          total={total}
           initialPage={1}
           onChange={(p) => {
             pagination?.onChange?.(p, pagination.pageSize ?? 10);
