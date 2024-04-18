@@ -1,7 +1,7 @@
 "use client";
 import { User } from "@nextui-org/react";
 import "./index.css";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { cn } from "@nextui-org/react";
 import type { User as UserType } from "@/app/api/model";
 import {
@@ -86,18 +86,9 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
       showCount: false,
     },
   ];
-  const bottomMenu = [
-    {
-      label: "注销",
-      key: "1",
-      icon: <SolarLogout2Broken />,
-      onClick: () => {
-        signOut();
-      },
-    },
-  ];
-  // relace所有url query
   const pathname = usePathname();
+  const [currentMenuKey, setCurrentMenuKey] = useState(pathname);
+  // relace所有url query
 
   const router = useRouter();
   const { data } = useQuery<UserType>("user", {
@@ -128,11 +119,12 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
             <Menu
               style={{ width: 256 }}
               mode="inline"
-              selectedKeys={[pathname]}
+              selectedKeys={[currentMenuKey]}
               defaultOpenKeys={["2"]}
               onSelect={({ key }) => {
                 if (key !== "2") {
                   router.push(key);
+                  setCurrentMenuKey(key);
                 }
               }}
               items={menuItem}
