@@ -52,7 +52,7 @@ const PostTable: FC<PostsProps> = ({ page }) => {
       key: "published",
       render: (published) => {
         return published ? (
-          <Chip color="success">已发布</Chip>
+          <Chip color="primary">已发布</Chip>
         ) : (
           <Chip color="warning">草稿</Chip>
         );

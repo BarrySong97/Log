@@ -42,6 +42,7 @@ export async function GET(
         tags: true,
       },
     });
+
     return NextResponse.json({
       data: res,
     });

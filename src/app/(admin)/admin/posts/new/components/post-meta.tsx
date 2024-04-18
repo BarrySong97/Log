@@ -98,7 +98,7 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
         title: data.title,
         desc: data.desc,
         published: data.published,
-
+        about: data.about,
         cover: data.cover,
         tagsId: data.tags.map((v) => v.id),
       });

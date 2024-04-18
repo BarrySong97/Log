@@ -68,6 +68,14 @@ const BlogDetail: FC<BlogDetailProps> = async ({ params }) => {
       <div className="blog-view mx-auto justify-center   relative flex min-h-[120px] ">
         <div className="max-w-5xl mr-12 pr-2 basis-[100%] prose break-all">
           <Content>{postElement}</Content>
+          <div className="mt-8">
+            <Link
+              className="hover:text-black text-gray-500 underline-offset-4 "
+              href={"/blogs"}
+            >
+              cd..
+            </Link>
+          </div>
         </div>
         <div
           className={`sticky ${
