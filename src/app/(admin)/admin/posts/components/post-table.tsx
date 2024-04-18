@@ -53,7 +53,7 @@ const PostTable: FC<PostsProps> = ({ page }) => {
       render: (tags: Tag[]) => {
         return tags?.map((item, index) => {
           return (
-            <span>
+            <span key={item.id}>
               #{item.title}
               {index !== tags.length - 1 ? ", " : ""}
             </span>

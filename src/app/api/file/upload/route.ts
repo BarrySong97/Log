@@ -3,12 +3,12 @@ import OSS from "ali-oss";
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-export const config = {
+export const ossConfig = {
   accessKeyId: process.env.OSS_ACCESS_KEY ?? "",
   accessKeySecret: process.env.OSS_Access_KEY_SECRET ?? "",
   bucket: process.env.ALI_Bucket ?? "",
 };
-const client = new OSS(config);
+const client = new OSS(ossConfig);
 export const deleteFile = async (url: string) => {
   const parts = url.split(".aliyuncs.com/");
   const result = parts[1]; // 这将获取到"/测试3"
@@ -33,7 +33,7 @@ export const GET = auth(async (request: Request) => {
     const location = await client.getBucketLocation(
       process.env.ALI_Bucket ?? "main-resource"
     );
-    const host = `https://${config.bucket}.${location.location}.aliyuncs.com`;
+    const host = `https://${ossConfig.bucket}.${location.location}.aliyuncs.com`;
 
     // 响应给客户端的签名和策略等信息
     const body = {
