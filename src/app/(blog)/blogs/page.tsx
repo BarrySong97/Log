@@ -17,11 +17,7 @@ const Blogs: FC<BlogsProps> = async () => {
   return (
     <div className="scrollElement max-w-5xl  w-full py-8 pb-4  px-4">
       {data?.map((article: Post) => (
-        <Link
-          href={`/blogs/${article.id}`}
-          key={article.title}
-          className="mb-16 block"
-        >
+        <div key={article.title} className="mb-16 block">
           <div className="flex justify-between items-center mb-3">
             <Link
               href={`/blogs/${article.id}`}
@@ -32,7 +28,7 @@ const Blogs: FC<BlogsProps> = async () => {
           </div>
           <div className="flex ">
             <div className="flex-1">
-              <p className="text-foreground max-w-[78%] h-[100px] text-base text-justify flex-1 break-all mb-1">
+              <p className="text-foreground max-h-[150px]  h-[100px] text-base text-justify flex-1 break-all mb-1">
                 {article.desc}
               </p>
               <div className="flex gap-2 items-center text-small text-default-400 ">
@@ -68,7 +64,7 @@ const Blogs: FC<BlogsProps> = async () => {
               </div>
             ) : null}
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );

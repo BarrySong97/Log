@@ -131,9 +131,9 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
               message.success("更新成功");
             } else {
               await createPost(requestBody as any as CreatePost);
+              router.push("/admin/posts");
               message.success("创建成功");
             }
-            router.push("/admin/posts");
             setPost({
               cover: "",
               published: false,

@@ -4,7 +4,6 @@ import Editor from "./editor/advanced-editor";
 import { useAtom } from "jotai";
 import { TOC, postAtom } from "../atom";
 import { Post } from "@/app/api/model";
-import { usePathname } from "next/navigation";
 import type { Editor as TitapEdiotr } from "@tiptap/core";
 export interface PostEditorProps {
   data?: Post;
@@ -79,7 +78,7 @@ const PostEditor: FC<PostEditorProps> = ({ data, editabled = true }) => {
 
         setPost({
           ...post,
-          desc: text.slice(0, 256),
+          desc: text.slice(0, 250),
           textCount: text?.length ?? 0,
           toc: (toc ?? []) as any,
           html: html,

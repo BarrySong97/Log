@@ -135,15 +135,13 @@ const PostTable: FC<PostsProps> = ({ page }) => {
                 </Link>
               </Popconfirm>
             )}
-            <Link
-              onClick={() => {
-                router.push(`/admin/posts/${record.id}`);
-              }}
+            <a
+              href={`/admin/posts/${record.id}`}
+              target="_blank"
               color="primary"
-              size="sm"
             >
               编辑
-            </Link>
+            </a>
             <Popconfirm
               title="删除Taf"
               description="确认删除该Tag吗？"
