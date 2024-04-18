@@ -56,25 +56,25 @@ const BlogDetail: FC<BlogDetailProps> = async ({ params }) => {
           </div>
         </div>
       </div>
-      <div className="blog-view mx-auto justify-center   relative flex min-h-[120px] ">
-        <div className="max-w-5xl mr-12 pr-2 basis-[100%] prose break-all">
-          <Content>{postElement}</Content>
-          <div className="mt-8">
-            <Link
-              className="hover:text-black text-gray-500 underline-offset-4 "
-              href={"/blogs"}
-            >
-              cd..
-            </Link>
+      <div className="ml-[calc((100%-64rem)/2+12px)] ">
+        <div className="blog-view  justify-start relative flex min-h-[120px] ">
+          <div className="max-w-5xl mr-12  basis-[100%] prose break-all">
+            <Content>{postElement}</Content>
+            <div className="mt-8">
+              <Link
+                className="hover:text-black text-gray-500 underline-offset-4 "
+                href={"/blogs"}
+              >
+                cd..
+              </Link>
+            </div>
           </div>
-        </div>
-        <div
-          className={`sticky ${
-            toc.length ? "-mr-40" : "-mr-16"
-          } top-[120px] mt-[120px] h-[calc(100vh-6rem-4.5rem-150px-120px)]`}
-        >
-          <div>
-            <Toc data={toc} />
+          <div
+            className={`sticky max-w-[200px] top-[120px] mt-[120px] h-[calc(100vh-6rem-4.5rem-150px-120px)]`}
+          >
+            <div>
+              <Toc data={toc} />
+            </div>
           </div>
         </div>
       </div>

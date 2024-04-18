@@ -23,13 +23,28 @@ const PostTable: FC<PostsProps> = ({ page }) => {
       key: "cover",
       width: 150,
       render: (cover) => {
-        return <Image src={cover} alt="cover" width={130} />;
+        return (
+          <img
+            src={cover ?? "/default-cover.png"}
+            alt="cover"
+            width={130}
+            height={150}
+            className="h-[80px] w-[170px] object-cover rounded-md"
+          />
+        );
       },
     },
     {
       title: "标题",
       dataIndex: "title",
       key: "title",
+      render: (_, record) => {
+        return (
+          <Link target="_blank" href={`/blogs/${record.id}`} size="sm">
+            {record.title}
+          </Link>
+        );
+      },
     },
     {
       title: "Tag",

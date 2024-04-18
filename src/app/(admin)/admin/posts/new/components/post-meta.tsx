@@ -113,7 +113,7 @@ const PostMeta: FC<PostMetaProps> = ({ data }) => {
       <div className="text-sm font-semibold mb-4">文章信息</div>
       <Form<CreatePost>
         onFinish={async (values) => {
-          values.tagsId = Array.from(values.tagsId);
+          values.tagsId = Array.from(values.tagsId ?? []);
           setCreateLoading(true);
           try {
             const highlight = await compositionHighlightCode(post.html);
