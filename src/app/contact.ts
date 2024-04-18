@@ -1,17 +1,17 @@
 export const contactList = [
   {
     title: "小红书",
+    key: "redbook",
     icon: "/xiaohongshu.ico",
-    link: "https://www.xiaohongshu.com/invite?inviter_id=10648397",
   },
   {
     title: "X",
+    key: "twitter",
     icon: "/twitter.3.ico",
-    link: "https://www.xiaohongshu.com/invite?inviter_id=10648397",
   },
   {
     title: "微信",
+    key: "wechat",
     icon: "/weixin.ico",
-    link: "https://www.xiaohongshu.com/invite?inviter_id=10648397",
   },
 ];

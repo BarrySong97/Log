@@ -22,9 +22,9 @@ const PostDetail: FC<PostDetailProps> = ({ data }) => {
     },
   });
   return (
-    <div className="ml-[calc((100%-64rem)/2+12px)] ">
+    <div className="xl:ml-[calc((100%-64rem)/2+12px)] ml-[12px]">
       <div className="blog-view  justify-start relative flex  ">
-        <div className="max-w-5xl mr-12  basis-[100%] prose break-all">
+        <div className="lg:max-w-5xl max-w-full mr-12  basis-[100%] prose break-all">
           <Content>{postElement}</Content>
           <div className="mt-8">
             <Link

@@ -225,4 +225,5 @@
 
 .blog-view .shiki {
     margin: 0 !important;
+    overflow: auto;
 }

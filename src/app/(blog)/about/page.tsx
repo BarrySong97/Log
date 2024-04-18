@@ -9,10 +9,9 @@ const About: FC<AboutProps> = async () => {
       cache: "no-store",
     }
   ).then((res) => res.json());
-  console.log(data);
 
   return (
-    <div className=" w-full py-8 pt-10   relative px-16 z-50">
+    <div className=" w-full py-8 pt-10 px-4  relative lg:px-16 z-50">
       <PostDetail data={data} />
     </div>
   );

@@ -10,6 +10,8 @@ import { MaterialSymbolsAddLocation } from "../assets/icon";
 import { contactList } from "../app/contact";
 import { TextGenerateEffect } from "./ui/text-generate-effect";
 import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
+import { useRequest } from "ahooks";
+import { User } from "@/app/api/model";
 export interface LayoutHeaderProps {}
 const LayoutHeader: FC<LayoutHeaderProps> = () => {
   const pathname = usePathname();
@@ -37,20 +39,24 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
       preRouterRef.current = pathname;
     }
   }, [pathname]);
-
+  const { data } = useRequest<User, any>(() =>
+    fetch("/api/setting")
+      .then((v) => v.json())
+      .then((v) => v.data)
+  );
   return (
     <>
-      <div className="z-[100]  sticky top-0 backdrop-blur-lg py-4 backdrop-saturate-150 bg-background/70  w-full  font-mono text-sm lg:flex">
-        <div className="w-[64rem] flex mx-auto items-center justify-between">
-          <div className="items-center   basis-[100%] flex h-48 w-full   justify-between bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-            <div className="flex items-center gap-4">
+      <div className="z-[100]   sticky top-0 backdrop-blur-lg py-4 backdrop-saturate-150 bg-background/70  w-full  font-mono text-sm lg:flex">
+        <div className="max-w-[64rem] basis-[100%] flex mx-auto items-center justify-between">
+          <div className="items-center  px-4 lg:px-0  basis-[100%] flex h-auto w-full   justify-between bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none bg-transparent">
+            <div className="flex items-center sm:gap-4 bg-transparent">
               {!isHomePage && (
                 <Link href={"/"}>
                   <motion.img
                     src="/blogger.jpg"
                     alt="blogger"
                     layoutId={"blogger"}
-                    className={`object-cover rounded-full w-[48px] h-[48px] `}
+                    className={`object-cover hidden sm:block rounded-full w-[48px] h-[48px] `}
                   />
                 </Link>
               )}
@@ -63,18 +69,21 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
                   BarrySong
                 </NextUILink>
                 {!isHomePage && (
-                  <div className="flex  -ml-2">
+                  <div className="hidden  sm:flex  -ml-2">
                     {contactList.map((v) => {
                       return (
                         <Button
                           className="h-unit-9"
                           as={"a"}
+                          target="_blank"
+                          href={(data as any)?.[v.key as any]}
                           key={v.title}
                           isIconOnly
                           variant="light"
                         >
-                          <motion.img
+                          <img
                             src={v.icon}
+                            className={v.key === "twitter" ? "rounded-md" : ""}
                             height={16}
                             width={16}
                             alt={v.title}
@@ -86,7 +95,7 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
                 )}
               </div>
             </div>
-            <div className="flex gap-4 self-end justify-between pb-1">
+            <div className="flex gap-4  justify-between pb-1 self-end bg-transparent">
               {!isHomePage
                 ? navMenu.map((item) => {
                     const isActive = pathname === item.href;
@@ -120,11 +129,11 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
         </div>
       </div>
       {isHomePage && (
-        <div className="w-full max-w-5xl ">
-          <div className="flex justify-between">
+        <div className="w-full max-w-5xl mb-4 lg:mb-0 ">
+          <div className="flex-col-reverse  flex lg:flex-row justify-between">
             <div className="self-center">
               <div className="mb-4">
-                <div className="flex gap-1 items-center mb-2">
+                <div className="flex gap-1 justify-center lg:justify-start items-center  lg:mx-0 ">
                   <MaterialSymbolsAddLocation className="text-large" />
                   <span className="text-small text-default-500">贵州贵阳</span>
                 </div>
@@ -134,42 +143,37 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
                   />
                 </div>
               </div>
-              <div className="gap-4 flex items-center">
-                <Button as={"a"} isIconOnly variant="light">
-                  <Image
-                    src={"/xiaohongshu.ico"}
-                    height={28}
-                    width={28}
-                    alt="xiaohongshu"
-                  />
-                </Button>
-                <Button as={"a"} isIconOnly variant="light">
-                  <Image
-                    src={"/twitter.3.ico"}
-                    className="rounded-lg"
-                    height={28}
-                    width={28}
-                    alt="xiaohongshu"
-                  />
-                </Button>
-                <Button as={"a"} isIconOnly variant="light">
-                  <Image
-                    src={"/weixin.ico"}
-                    className="rounded-lg"
-                    height={28}
-                    width={28}
-                    alt="xiaohongshu"
-                  />
-                </Button>
+              <div className="gap-4 flex justify-center lg:justify-start items-center">
+                {contactList.map((v) => {
+                  return (
+                    <Button
+                      className="h-unit-9"
+                      as={"a"}
+                      target="_blank"
+                      href={(data as any)?.[v.key as any]}
+                      key={v.title}
+                      isIconOnly
+                      variant="light"
+                    >
+                      <img
+                        src={v.icon}
+                        className={v.key === "twitter" ? "rounded-md" : ""}
+                        height={28}
+                        width={28}
+                        alt={v.title}
+                      />
+                    </Button>
+                  );
+                })}
               </div>
             </div>
-            <div className="relative  flex place-items-center  after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-2/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-['']  ">
+            <div className="relative mb-4 lg:mb-0 flex place-items-center justify-center lg:justify-end    my-4 lg:my-0">
               <div className="relative pointer-events-auto  z-[999]">
                 <motion.img
                   src="/blogger.jpg"
                   alt="blogger"
                   layoutId="blogger"
-                  className="object-cover rounded-full w-[280px] h-[280px] "
+                  className="object-cover rounded-full w-[100px] h-[100px] lg:w-[280px] lg:h-[280px] "
                 />
               </div>
             </div>
@@ -177,7 +181,7 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
         </div>
       )}
       {isHomePage && (
-        <div className="mb-32 grid text-center gap-4 lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left">
+        <div className=" grid text-center gap-4 lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left">
           {navMenu.map((item) => {
             return (
               <CardContainer

@@ -9,7 +9,7 @@ const Projects: FC<ProjectsProps> = async () => {
   ).then((res) => res.json());
 
   return (
-    <div className="scrollElement grid grid-cols-3 gap-4 max-w-5xl  w-full py-8 pb-4  px-16">
+    <div className="scrollElement grid lg:grid-cols-3 grid-cols-2 gap-4 max-w-5xl  w-full py-8 pb-4  px-4 lg:px-16">
       {data?.map((v) => {
         return (
           <Link

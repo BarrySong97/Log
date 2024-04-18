@@ -25,6 +25,7 @@ export async function GET(
       where: {
         id: params.id,
         published,
+        about: false,
       },
       include: {
         tags: true,

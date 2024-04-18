@@ -15,20 +15,20 @@ const Blogs: FC<BlogsProps> = async () => {
   ).then((res) => res.json());
 
   return (
-    <div className="scrollElement max-w-5xl  w-full py-8 pb-4  px-4">
+    <div className="scrollElement  max-w-5xl  w-full py-8 pb-4  px-4 lg:px-0">
       {data?.map((article: Post) => (
-        <div key={article.title} className="mb-16 block">
+        <div key={article.title} className="mb-8 lg:mb-16 block">
           <div className="flex justify-between items-center mb-3">
             <Link
               href={`/blogs/${article.id}`}
-              className="text-black text-xl font-bold hover:underline underline-offset-8"
+              className="text-foreground text-xl font-bold hover:underline underline-offset-8"
             >
               {article.title}
             </Link>
           </div>
-          <div className="flex ">
+          <div className="flex gap-4">
             <div className="flex-1">
-              <p className="text-foreground max-h-[150px]  h-[100px] text-base text-justify flex-1 break-all mb-1">
+              <p className="text-default-700 min-h-[100px] text-sm lg:text-base text-justify flex-1 break-all mb-1">
                 {article.desc}
               </p>
               <div className="flex gap-2 items-center text-small text-default-400 ">
@@ -55,7 +55,7 @@ const Blogs: FC<BlogsProps> = async () => {
             {article.cover ? (
               <div className=" mr-6">
                 <Image
-                  className="object-cover w-[190px]  h-[105px] rounded-md  mt-2"
+                  className="object-cover w-[100px] h-[70px] lg:w-[190px] lg:h-[105px] rounded-md  mt-2"
                   src={article.cover}
                   width={175}
                   height={98}

@@ -16,9 +16,9 @@ const BlogDetail: FC<BlogDetailProps> = async ({ params }) => {
   ).then((res) => res.json());
 
   return (
-    <div className=" w-full py-8 pt-10 pb-4  relative px-16 z-50">
+    <div className=" w-full py-8 pt-10 pb-4 px-4  relative lg:px-16 z-50">
       <div className="max-w-5xl mx-auto mb-4">
-        {data.cover ? (
+        {data?.cover ? (
           <div className="flex justify-center mb-8">
             <Image
               isBlurred
@@ -32,10 +32,11 @@ const BlogDetail: FC<BlogDetailProps> = async ({ params }) => {
           </div>
         ) : null}
         <div className="px-2">
-          <div className="text-6xl font-bold mb-4 ">{data.title}</div>
-          <div className="flex  gap-2 text-small text-default-500 justify-start pl-1">
-            <TagList data={data.tags} />
-            <div>创建时间: 2022-12-13 22:33</div>
+          <div className="text-3xl lg:text-6xl font-bold mb-4 ">
+            {data?.title}
+          </div>
+          <div className="flex  flex-col lg:flex-row gap-2 text-small text-default-500 justify-start pl-1">
+            <TagList data={data?.tags} />
             <div>更新时间: 2022-12-13 22:33</div>
           </div>
         </div>

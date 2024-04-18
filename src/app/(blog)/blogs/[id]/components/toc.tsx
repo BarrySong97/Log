@@ -7,7 +7,7 @@ export interface TocProps {
 }
 const Toc: FC<TocProps> = ({ data }) => {
   return (
-    <div>
+    <div className="hidden xl:block">
       {data.map((item) => (
         <div key={item.text} className="flex text-sm items-center gap-2">
           <TocItem item={item} />

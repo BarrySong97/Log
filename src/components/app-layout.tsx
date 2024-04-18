@@ -11,7 +11,7 @@ const AppLayout: FC<AppLayoutProps> = ({ children }) => {
       id="page-container"
       className={`flex     min-h-screen flex-col items-center ${
         pathname !== "/" ? "" : "justify-between"
-      } p-24`}
+      } p-0 pt-0 lg:p-24`}
     >
       {children}
     </main>
