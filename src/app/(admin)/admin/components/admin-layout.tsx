@@ -99,7 +99,7 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children }) => {
   });
   return (
     <main className="flex h-dvh w-full">
-      <div className="relative flex h-full  justify-between max-w-[288px] flex-1 flex-col !border-r-small border-divider p-6 transition-[transform,opacity,margin] duration-250 ease-in-out">
+      <div className="relative 1 flex h-full  justify-between max-w-[288px] flex-1 flex-col !border-r-small border-divider p-6 transition-[transform,opacity,margin] duration-250 ease-in-out">
         <div>
           <div className="px-2">
             <User
