@@ -6,12 +6,23 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const published = !!Number(searchParams.get("published"));
 
-  if (searchParams.get("published")) {
-    const res = await prisma.post.findMany({
-      where: {
-        published: published,
-        about: false,
+  const tagId = searchParams.get("tagId") ?? undefined;
+
+  if (published) {
+    const where = {
+      published: published,
+      about: false,
+      tags: {
+        some: {
+          id: tagId,
+        },
       },
+    };
+    if (tagId === "undefined") {
+      delete (where as any).tags;
+    }
+    const res = await prisma.post.findMany({
+      where,
       orderBy: {
         createdAt: "desc",
       },

@@ -21,7 +21,7 @@ export async function GET(
   const searchParams = request.nextUrl.searchParams;
   const published = !!Number(searchParams.get("published"));
 
-  if (searchParams.get("published")) {
+  if (published) {
     const res = await prisma.post.findFirst({
       where: {
         id: params.id,

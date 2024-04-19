@@ -11,7 +11,7 @@ const TagList: FC<TagListProps> = ({ data }) => {
       <Link
         key={tag.id}
         className="hover:underline underline-offset-4"
-        href={"/"}
+        href={`/blogs?tagId=${tag.id}`}
       >
         #{tag.title}
       </Link>

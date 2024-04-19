@@ -1,21 +1,35 @@
 import React, { FC } from "react";
 import { Image } from "@nextui-org/react";
 import Link from "next/link";
-import { Post } from "@/app/api/model";
+import { Post, Tag } from "@/app/api/model";
 import dayjs from "dayjs";
 import { formatDateOrDaysAgo } from "@/utils/date";
 import { MaterialSymbolsCalendarClockOutline } from "@/assets/icon";
-export interface BlogsProps {}
-const Blogs: FC<BlogsProps> = async () => {
+import TagList from "./[id]/components/tag-list";
+export interface BlogsProps {
+  searchParams: { tagId: string };
+}
+const Blogs: FC<BlogsProps> = async ({ searchParams }) => {
   const { data } = await fetch(
-    `${process.env.API_PATH}/api/posts?published=1`,
+    `${process.env.API_PATH}/api/posts?published=1&tagId=${searchParams.tagId}`,
     {
       cache: "no-store",
     }
   ).then((res) => res.json());
+  const currentTag: Tag | null = data?.[0]?.tags?.find(
+    (v: Tag) => v.id === searchParams.tagId
+  );
 
   return (
     <div className="scrollElement  max-w-5xl  w-full py-8 pb-4  px-4 lg:px-0">
+      <div className="flex  gap-2 lg:justify-start justify-between text-foreground  mb-8">
+        <div className="text-2xl  lg:text-3xl font-bold">
+          #{currentTag?.title}
+        </div>
+        <div className="text-medium self-end text-default-400">
+          共 {data?.length ?? 0} 篇文章
+        </div>
+      </div>
       {data?.map((article: Post) => (
         <div key={article.title} className="mb-8 lg:mb-16 block">
           <div className="flex justify-between items-center mb-3">
@@ -39,17 +53,7 @@ const Blogs: FC<BlogsProps> = async () => {
                   <MaterialSymbolsCalendarClockOutline />
                   {formatDateOrDaysAgo(data.updatedAt)}
                 </span>
-                {article.tags.map((tag) => {
-                  return (
-                    <Link
-                      key={tag.id}
-                      className="hover:underline underline-offset-4"
-                      href={"/"}
-                    >
-                      #{tag.title}
-                    </Link>
-                  );
-                })}
+                <TagList data={article.tags} />
               </div>
             </div>
             {article.cover ? (

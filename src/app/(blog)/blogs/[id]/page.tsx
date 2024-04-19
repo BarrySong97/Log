@@ -35,7 +35,7 @@ const BlogDetail: FC<BlogDetailProps> = async ({ params }) => {
           <div className="text-3xl lg:text-6xl font-bold mb-4 ">
             {data?.title}
           </div>
-          <div className="flex  flex-col lg:flex-row gap-2 text-small text-default-500 justify-start pl-1">
+          <div className="flex  flex-col lg:flex-row gap-2 text-small text-default-500 justify-start lg:pl-1">
             <TagList data={data?.tags} />
             <div>更新时间: 2022-12-13 22:33</div>
           </div>
