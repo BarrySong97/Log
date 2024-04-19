@@ -1,7 +1,4 @@
 .prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-  background-color: rgb(18, 18, 18)
-}
-
-.node-codeBlock::before {
-  display: none;
+  /* background-color: rgb(18, 18, 18) */
+  @apply bg-primary-700/5;
 }

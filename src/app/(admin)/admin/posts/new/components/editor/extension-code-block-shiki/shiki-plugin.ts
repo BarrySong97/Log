@@ -2,7 +2,6 @@ import { findChildren } from "@tiptap/core";
 import { Node as ProsemirrorNode } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
-
 /**
  * 解析节点数组
  *
@@ -90,13 +89,13 @@ function getDecorations({
     const nodes = language
       ? getHighlightNodes(
           highlighter.codeToHast(block.node.textContent, {
-            theme: "vitesse-dark",
+            theme: "github-light",
             lang: language,
           })
         )
       : getHighlightNodes(
           highlighter.codeToHast(block.node.textContent, {
-            theme: "vitesse-dark",
+            theme: "github-light",
             lang: language,
           })
         );
@@ -106,8 +105,6 @@ function getDecorations({
     parseNodes(nodes).forEach((node) => {
       // 节点结束位置
       const to = from + node.text.length;
-
-      // 如果节点有样式类，则创建装饰器并添加到装饰器数组中
 
       if (node.classes.length) {
         const decoration = Decoration.inline(from, to, {

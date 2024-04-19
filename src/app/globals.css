@@ -227,3 +227,49 @@
     margin: 0 !important;
     overflow: auto;
 }
+
+.shiki.github-light {
+    padding: 0;
+    background-color: #f2f7fc !important;
+    border-radius: 0 0 6px 6px !important;
+
+}
+
+.shiki.github-light .line {
+    padding: 0 24px;
+    height: 24px;
+    width: 100%;
+    display: inline-block;
+
+}
+
+.shiki.github-light.line {
+    background-color: #f2f7fc !important;
+}
+
+.node-codeBlock::before {
+    display: none !important;
+}
+
+code .diff.add {
+    background-color: rgba(16, 185, 129, .14);
+}
+
+code .diff.add:before {
+    content: "+";
+    position: absolute;
+    left: 10px;
+    color: #18794e;
+}
+
+code .diff.remove {
+    background-color: rgba(244, 63, 94, .14);
+    opacity: .7;
+}
+
+code .diff.remove:before {
+    content: "-";
+    position: absolute;
+    left: 10px;
+    color: #b34e52;
+}

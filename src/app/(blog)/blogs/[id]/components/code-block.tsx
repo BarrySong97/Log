@@ -18,17 +18,9 @@ const CodeBlock: FC<CodeBlockProps> = ({ language, children }) => {
     }, 2000);
   };
   return (
-    <div
-      style={{
-        backgroundColor: "rgb(18, 18, 18)",
-      }}
-      className="rounded-md "
-    >
+    <div>
       <div
-        style={{
-          backgroundColor: "rgb(18, 18, 18)",
-        }}
-        className=" text-white px-4 pt-2 rounded-t-md flex justify-between items-center"
+        className="text-foreground  bg-nexa-primary-light px-4 py-2 rounded-t-md flex justify-between items-center"
         contentEditable={false}
       >
         <div className="code-block__language text-sm  tracking-wider">
@@ -41,14 +33,16 @@ const CodeBlock: FC<CodeBlockProps> = ({ language, children }) => {
             isIconOnly
             size="sm"
             variant="light"
-            className="text-medium text-white"
+            className="text-medium text-foreground"
             onClick={onCopy}
           >
             {isCopied ? <MaterialSymbolsCheckSmall /> : <SolarCopyOutline />}
           </Button>
         </div>
       </div>
-      <div ref={ref}>{children}</div>
+      <div ref={ref} className="rounded-b-md">
+        {children}
+      </div>
     </div>
   );
 };

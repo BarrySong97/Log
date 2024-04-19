@@ -22,41 +22,42 @@ const CodeBlock: FC<CodeBlockProps> = ({ node }) => {
   };
   return (
     <NodeViewWrapper className="code-block  ">
-      <div
-        style={{
-          backgroundColor: "rgb(18, 18, 18)",
-        }}
-        className=" text-white px-6 pt-2 rounded-t-md flex justify-between items-center"
-        contentEditable={false}
-      >
-        <div className="code-block__language text-sm  tracking-wider">
-          {defaultLanguage?.[0].toLocaleUpperCase()}
-          {defaultLanguage?.slice(1)}
-          {!defaultLanguage && "Javascript"}
+      <div className="bg-nexa-primary">
+        <div
+          className=" text-foreground bg-nexa-primary-light  px-6 py-2 rounded-t-md flex justify-between items-center"
+          contentEditable={false}
+        >
+          <div className="code-block__language text-sm  tracking-wider">
+            {defaultLanguage?.[0].toLocaleUpperCase()}
+            {defaultLanguage?.slice(1)}
+            {!defaultLanguage && "Javascript"}
+          </div>
+          <div>
+            <Button
+              isIconOnly
+              size="sm"
+              variant="light"
+              className="text-medium text-foreground"
+              onClick={onCopy}
+            >
+              {isCopied ? <MaterialSymbolsCheckSmall /> : <SolarCopyOutline />}
+            </Button>
+          </div>
         </div>
-        <div>
-          <Button
-            isIconOnly
-            size="sm"
-            variant="light"
-            className="text-medium text-white"
-            onClick={onCopy}
-          >
-            {isCopied ? <MaterialSymbolsCheckSmall /> : <SolarCopyOutline />}
-          </Button>
-        </div>
+        <pre
+          className={`${defaultLanguage}  bg-transparent bg-opacity-[0.03] mt-0 rounded-t-none rounded-b-md`}
+          style={
+            {
+              // backgroundColor: "rgb(18, 18, 18)",
+            }
+          }
+        >
+          <NodeViewContent
+            className={`mt-0 language-${defaultLanguage}`}
+            as="code"
+          />
+        </pre>
       </div>
-      <pre
-        className={`${defaultLanguage} mt-0 rounded-t-none`}
-        style={{
-          backgroundColor: "rgb(18, 18, 18)",
-        }}
-      >
-        <NodeViewContent
-          className={`mt-0 language-${defaultLanguage}`}
-          as="code"
-        />
-      </pre>
     </NodeViewWrapper>
   );
 };

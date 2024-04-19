@@ -12,6 +12,7 @@ import { TextGenerateEffect } from "./ui/text-generate-effect";
 import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
 import { useRequest } from "ahooks";
 import { User } from "@/app/api/model";
+import clsx from "clsx";
 export interface LayoutHeaderProps {}
 const LayoutHeader: FC<LayoutHeaderProps> = () => {
   const pathname = usePathname();
@@ -44,12 +45,18 @@ const LayoutHeader: FC<LayoutHeaderProps> = () => {
       .then((v) => v.json())
       .then((v) => v.data)
   );
+  const headerClassname = clsx(
+    {
+      "shadow-sm": !isHomePage,
+    },
+    "z-[100] lg:shadow-none   sticky top-0   py-4 backdrop-blur-lg backdrop-saturate-150 bg-background/70  w-full  font-mono text-sm lg:flex"
+  );
   return (
     <>
-      <div className="z-[100]   sticky top-0 backdrop-blur-lg py-4 backdrop-saturate-150 bg-background/70  w-full  font-mono text-sm lg:flex">
-        <div className="max-w-[64rem] basis-[100%] flex mx-auto items-center justify-between">
-          <div className="items-center  px-4 lg:px-0  basis-[100%] flex h-auto w-full   justify-between bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none bg-transparent">
-            <div className="flex items-center sm:gap-4 bg-transparent">
+      <div className={headerClassname}>
+        <div className="max-w-[64rem]  basis-[100%] flex mx-auto items-center justify-between   ">
+          <div className="items-center  px-4 lg:px-0  basis-[100%] flex h-auto w-full   justify-between  lg:static lg:h-auto lg:w-auto lg:bg-none bg-transparent">
+            <div className="flex items-center sm:gap-4  ">
               {!isHomePage && (
                 <Link href={"/"}>
                   <motion.img

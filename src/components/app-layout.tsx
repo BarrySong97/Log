@@ -9,9 +9,9 @@ const AppLayout: FC<AppLayoutProps> = ({ children }) => {
   return (
     <main
       id="page-container"
-      className={`flex     min-h-screen flex-col items-center ${
-        pathname !== "/" ? "" : "justify-between"
-      } p-0 pt-0 lg:p-24`}
+      className={`flex p-0 pt-0 lg:p-24 min-h-screen flex-col items-center ${
+        pathname !== "/" ? "lg:pt-0" : "justify-between"
+      } `}
     >
       {children}
     </main>

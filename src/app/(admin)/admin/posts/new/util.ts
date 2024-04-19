@@ -1,11 +1,15 @@
 import { codeToHtml } from "shiki";
-
+import {
+  transformerNotationDiff,
+  transformerMetaWordHighlight,
+} from "@shikijs/transformers";
 async function highlightCode(language: string, code: string) {
   // 这里应该是高亮代码的逻辑，为了示例，我们只是简单地返回传入的代码字符串
   // 实际上，这里可能会调用某个高亮库，如highlight.js等
   return codeToHtml(code, {
     lang: language ?? "javascript",
-    theme: "vitesse-dark",
+    theme: "github-light",
+    transformers: [transformerMetaWordHighlight(), transformerNotationDiff()],
   });
 }
 
@@ -21,6 +25,7 @@ async function extractCodeFromPre(htmlString: string) {
     const lang = element.className.split("language-")[1];
 
     const highlightedCodeHtml = highlightCode(lang, codeHtml);
+
     // 在highlightedCodeHtml 上面加上class
     // 否则，样式会失效
 

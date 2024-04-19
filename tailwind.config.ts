@@ -6,6 +6,19 @@ const colors = require("tailwindcss/colors");
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
+const makePrimaryColor =
+  // @ts-ignore
+
+
+    (l) =>
+    // @ts-ignore
+    ({ opacityValue }) => {
+      return (
+        `hsl(var(--nextra-primary-hue) var(--nextra-primary-saturation) ${l}%` +
+        (opacityValue ? ` / ${opacityValue})` : ")")
+      );
+    };
+
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -24,12 +37,16 @@ const config: Config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        // background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        // primary: {
-        //   DEFAULT: "hsl(var(--primary))",
-        //   foreground: "hsl(var(--primary-foreground))",
-        // },
+        nexa: {
+          primary: {
+            DEFAULT: "#f2f7fc",
+            light: "#e6eff9",
+          },
+          gray: {
+            default: "rgba(55, 65, 81, 1)",
+          },
+        },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",

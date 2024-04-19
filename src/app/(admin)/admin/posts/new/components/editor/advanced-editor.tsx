@@ -18,7 +18,7 @@ import { ColorSelector } from "./selectors/color-selector";
 import { CodeBlockLowShiki } from "./extension-code-block-shiki/code-block-shiki";
 import { Extensions, ReactNodeViewRenderer } from "@tiptap/react";
 import CodeBlock from "../code-block";
-import { getHighlighter } from "shiki";
+import { getHighlighter, createCssVariablesTheme } from "shiki";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 import { handleImageDrop, handleImagePaste } from "novel/plugins";
@@ -52,7 +52,7 @@ const Editor = ({
   const getShikiHightlight = async () => {
     const higlighter = await getHighlighter({
       langs: languages,
-      themes: ["vitesse-dark"],
+      themes: ["github-light"],
     });
     setExtensions([
       ...extensions,

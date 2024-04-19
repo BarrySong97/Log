@@ -1,6 +1,6 @@
 "use client";
 import { Spin, Upload, UploadProps, message } from "antd";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { SolarCloudUploadBroken } from "@/assets/icon";
 import useOssSignature from "@/hooks/useOSS";
 import clsx from "clsx";
