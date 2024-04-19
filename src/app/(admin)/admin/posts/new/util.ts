@@ -1,7 +1,11 @@
 import { codeToHtml } from "shiki";
 import {
   transformerNotationDiff,
-  transformerMetaWordHighlight,
+  transformerNotationHighlight,
+  transformerNotationErrorLevel,
+  transformerNotationWordHighlight,
+  transformerNotationFocus,
+  transformerMetaHighlight,
 } from "@shikijs/transformers";
 async function highlightCode(language: string, code: string) {
   // 这里应该是高亮代码的逻辑，为了示例，我们只是简单地返回传入的代码字符串
@@ -9,7 +13,14 @@ async function highlightCode(language: string, code: string) {
   return codeToHtml(code, {
     lang: language ?? "javascript",
     theme: "github-light",
-    transformers: [transformerMetaWordHighlight(), transformerNotationDiff()],
+    transformers: [
+      transformerNotationHighlight(),
+      transformerNotationDiff(),
+      transformerNotationErrorLevel(),
+      transformerNotationWordHighlight(),
+      transformerNotationFocus(),
+      transformerMetaHighlight(),
+    ],
   });
 }
 

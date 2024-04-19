@@ -1,0 +1,72 @@
+code .diff.add {
+    background-color: rgba(16, 185, 129, .14);
+}
+
+code .highlighted-word {
+    --vp-c-bg-soft: #f6f6f7;
+    --vp-c-border: #c2c2c4;
+    background-color: var(--vp-c-bg-soft);
+    border: 1px solid var(--vp-c-border);
+    padding: 1px 3px;
+    margin: -1px -3px;
+    border-radius: 4px;
+}
+
+.has-focused .line:not(.focused) {
+    filter: blur(.095rem);
+    opacity: .4;
+    transition: filter .35s, opacity .35s
+}
+
+.has-focused .line:not(.focused) {
+    opacity: .7;
+    transition: filter .35s, opacity .35s
+}
+
+.shiki {
+    padding: 4px 0;
+}
+
+code .line.highlighted {
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent), var(--tw-ring-shadow, 0 0 transparent), var(--tw-shadow);
+}
+
+code .line.highlighted {
+    --nextra-primary-hue: 212deg;
+    background-color: hsl(var(--nextra-primary-hue) 100% 45% / .1);
+    color: hsl(var(--nextra-primary-hue) 100% 45% / .5);
+    --tw-shadow: 2px 0 currentColor inset;
+    --tw-shadow-colored: inset 2px 0 var(--tw-shadow-color);
+}
+
+.has-focused:hover .line:not(.focused) {
+    filter: blur(0);
+    opacity: 1
+}
+
+code .diff.add:before {
+    content: "+";
+    position: absolute;
+    left: 10px;
+    color: #18794e;
+}
+
+code .warning {
+    background-color: rgba(234, 179, 8, .14);
+}
+
+code .error {
+    background-color: rgba(244, 63, 94, .14);
+}
+
+code .diff.remove {
+    background-color: rgba(244, 63, 94, .14);
+    opacity: .7;
+}
+
+code .diff.remove:before {
+    content: "-";
+    position: absolute;
+    left: 10px;
+    color: #b34e52;
+}

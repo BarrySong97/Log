@@ -40,7 +40,7 @@ const CodeBlock: FC<CodeBlockProps> = ({ language, children }) => {
           </Button>
         </div>
       </div>
-      <div ref={ref} className="rounded-b-md">
+      <div ref={ref} className="rounded-b-md bg-nexa-primary-light">
         {children}
       </div>
     </div>

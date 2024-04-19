@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
+import "../styles/shiki.css";
 import { Providers } from "../providers";
 import LayoutHeader from "../../components/layout-header";
 import AppLayout from "../../components/app-layout";
