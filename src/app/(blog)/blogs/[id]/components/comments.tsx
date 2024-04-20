@@ -20,13 +20,13 @@ const Comments = () => {
           repoId="R_kgDOLn1tsg"
           category="Announcements"
           categoryId="DIC_kwDOLn1tss4Cez6n"
-          mapping="title"
+          mapping="og:title"
           reactionsEnabled="1"
           emitMetadata="0"
+          theme={`${process.env.API_PATH}/comment.css`}
           inputPosition="top"
           lang="zh-CN"
           loading="lazy"
-          theme="light"
         />
       ) : null}
     </div>
