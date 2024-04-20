@@ -14,11 +14,11 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     }
   ).then((res) => res.json());
   return {
-    title: data.title ?? "NextUI Blog",
+    title: `${data.title} | Barry Song's 小宇宙` ?? "NextUI Blog",
     description: data.desc ?? "NextUI Blog",
     openGraph: {
       title: {
-        default: "Barry Song's Blog",
+        default: data.title ?? "Barry Song's Blog",
         template: "%s | Barry Song的小宇宙",
       },
       description: "探索宇宙，永葆青春",

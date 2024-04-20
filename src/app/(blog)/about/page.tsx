@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { seo } from "@/app/seo";
 export interface AboutProps {}
 export const metadata: Metadata = {
-  title: "关于 - Barry's Blog",
+  title: "关于 - Barry Song's 小宇宙",
   description: "关于Barry Song是一个怎么样的人",
   openGraph: {
     title: {

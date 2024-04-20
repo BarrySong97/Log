@@ -9,7 +9,7 @@ import TagList from "./[id]/components/tag-list";
 import { Metadata } from "next";
 import { seo } from "@/app/seo";
 export const metadata: Metadata = {
-  title: "博客 - Barry's Blog",
+  title: "博客 - Barry Song's 小宇宙",
   description: "分享我的见解，思想，生活过的痕迹",
   openGraph: {
     title: {

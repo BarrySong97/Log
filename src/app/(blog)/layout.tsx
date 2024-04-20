@@ -11,7 +11,7 @@ import { seo } from "../seo";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Barry Song's Blog",
+  title: "Barry Song's 小宇宙",
   description: "属于我的小宇宙",
   openGraph: {
     title: {

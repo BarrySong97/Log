@@ -3,7 +3,22 @@ import PostEditor from "../new/components/post-editor";
 import "./prosemirror.css";
 import "./uploader.css";
 import PostMeta from "../new/components/post-meta";
+import { Metadata } from "next";
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+  title: "编辑文章 - Barry Song's 小宇宙",
+  openGraph: {
+    title: {
+      default: "Barry Song's Blog",
+      template: "%s | Barry Song的小宇宙",
+    },
+    description: "探索宇宙，永葆青春",
+    siteName: "Barry Song's Blog",
+    locale: "zh_CN",
+    type: "website",
+    url: "https://www.barrysong4real.cc/",
+  },
+};
 export interface EditPost {
   params: { id: string };
 }

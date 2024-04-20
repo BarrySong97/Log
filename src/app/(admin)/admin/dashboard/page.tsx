@@ -6,8 +6,23 @@ import {
   SolarTextBold,
 } from "@/assets/icon";
 import { Card, CardBody } from "@nextui-org/react";
+import { Metadata } from "next";
 import React, { FC } from "react";
 export interface Props {}
+export const metadata: Metadata = {
+  title: "Dashboard - Barry Song's 小宇宙",
+  openGraph: {
+    title: {
+      default: "Barry Song's Blog",
+      template: "%s | Barry Song的小宇宙",
+    },
+    description: "探索宇宙，永葆青春",
+    siteName: "Barry Song's Blog",
+    locale: "zh_CN",
+    type: "website",
+    url: "https://www.barrysong4real.cc/",
+  },
+};
 const Dashboard: FC<Props> = async () => {
   const { data }: { data: DashBoardData } = await fetch(
     `${process.env.API_PATH}/api/dashboard`,

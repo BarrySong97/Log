@@ -5,7 +5,7 @@ import { Image } from "@nextui-org/react";
 import { Metadata } from "next";
 import { seo } from "@/app/seo";
 export const metadata: Metadata = {
-  title: "项目 - Barry's Blog",
+  title: "项目 - Barry Song's 小宇宙",
   description: "这些年我做过的项目",
   openGraph: {
     title: {
