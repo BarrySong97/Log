@@ -23,7 +23,8 @@ const Comments = () => {
           mapping="og:title"
           reactionsEnabled="1"
           emitMetadata="0"
-          theme={`${process.env.API_PATH}/comment.css`}
+          // theme={`https://www.barrysong4real.cc/comment.css`}
+          theme={"noborder_light"}
           inputPosition="top"
           lang="zh-CN"
           loading="lazy"
