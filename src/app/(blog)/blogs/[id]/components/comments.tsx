@@ -23,8 +23,7 @@ const Comments = () => {
           mapping="og:title"
           reactionsEnabled="1"
           emitMetadata="0"
-          // theme={`https://www.barrysong4real.cc/comment.css`}
-          theme={"noborder_light"}
+          theme={`https://www.barrysong4real.cc/comment.css`}
           inputPosition="top"
           lang="zh-CN"
           loading="lazy"
