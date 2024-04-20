@@ -1,5 +1,5 @@
 :root {
-    --primary-default: #006FEE;
+    --primary-default: 0, 111, 238;
     --bg-default: 246, 246, 247;
     --color-prettylights-syntax-comment: #6e7781;
     --color-prettylights-syntax-constant: #0550ae;
