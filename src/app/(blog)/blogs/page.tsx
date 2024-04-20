@@ -6,6 +6,26 @@ import dayjs from "dayjs";
 import { formatDateOrDaysAgo } from "@/utils/date";
 import { MaterialSymbolsCalendarClockOutline } from "@/assets/icon";
 import TagList from "./[id]/components/tag-list";
+import { Metadata } from "next";
+import { seo } from "@/app/seo";
+export const metadata: Metadata = {
+  title: "博客 - Barry's Blog",
+  description: "分享我的见解，思想，生活过的痕迹",
+  openGraph: {
+    title: {
+      default: "Barry Song's Blog",
+      template: "%s | Barry Song的小宇宙",
+    },
+    description: "探索宇宙，永葆青春",
+    siteName: "Barry Song's Blog",
+    locale: "zh_CN",
+    type: "website",
+    url: "https://www.barrysong4real.cc/",
+  },
+  twitter: {
+    ...seo.twitter,
+  },
+};
 export interface BlogsProps {
   searchParams: { tagId: string };
 }
@@ -23,9 +43,11 @@ const Blogs: FC<BlogsProps> = async ({ searchParams }) => {
   return (
     <div className="scrollElement  max-w-5xl  w-full py-8 pb-4  px-4 lg:px-0">
       <div className="flex  gap-2 lg:justify-start justify-between text-foreground  mb-8">
-        <div className="text-2xl  lg:text-3xl font-bold">
-          #{currentTag?.title}
-        </div>
+        {currentTag ? (
+          <div className="text-2xl  lg:text-3xl font-bold">
+            #{currentTag?.title}
+          </div>
+        ) : null}
         <div className="text-medium self-end text-default-400">
           共 {data?.length ?? 0} 篇文章
         </div>

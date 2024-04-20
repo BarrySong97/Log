@@ -6,12 +6,27 @@ import { Providers } from "../providers";
 import LayoutHeader from "../../components/layout-header";
 import AppLayout from "../../components/app-layout";
 import BackToTopBottom from "../../components/back-to-top-bottom";
+import { seo } from "../seo";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Barry's Blog",
-  description: "Share everything I care",
+  title: "Barry Song's Blog",
+  description: "属于我的小宇宙",
+  openGraph: {
+    title: {
+      default: "Barry Song's Blog",
+      template: "%s | Barry Song的小宇宙",
+    },
+    description: "探索宇宙，永葆青春",
+    siteName: "Barry Song's Blog",
+    locale: "zh_CN",
+    type: "website",
+    url: "https://www.barrysong4real.cc/",
+  },
+  twitter: {
+    ...seo.twitter,
+  },
 };
 
 export default function RootLayout({

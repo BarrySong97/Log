@@ -6,6 +6,7 @@ import parse, { domToReact } from "html-react-parser";
 import CodeBlock from "./code-block";
 import Content from "./content";
 import Toc from "./toc";
+import Comments from "./comments";
 export interface PostDetailProps {
   data?: Post;
 }
@@ -34,6 +35,7 @@ const PostDetail: FC<PostDetailProps> = ({ data }) => {
               cd..
             </Link>
           </div>
+          <Comments />
         </div>
         {toc.length ? (
           <div

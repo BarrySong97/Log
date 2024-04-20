@@ -2,6 +2,26 @@ import Link from "next/link";
 import React, { FC } from "react";
 import { Project } from "@/app/api/model";
 import { Image } from "@nextui-org/react";
+import { Metadata } from "next";
+import { seo } from "@/app/seo";
+export const metadata: Metadata = {
+  title: "项目 - Barry's Blog",
+  description: "这些年我做过的项目",
+  openGraph: {
+    title: {
+      default: "Barry Song's Blog",
+      template: "%s | Barry Song的小宇宙",
+    },
+    description: "探索宇宙，永葆青春",
+    siteName: "Barry Song's Blog",
+    locale: "zh_CN",
+    type: "website",
+    url: "https://www.barrysong4real.cc/",
+  },
+  twitter: {
+    ...seo.twitter,
+  },
+};
 export interface ProjectsProps {}
 const Projects: FC<ProjectsProps> = async () => {
   const { data }: { data: Project[] } = await fetch(

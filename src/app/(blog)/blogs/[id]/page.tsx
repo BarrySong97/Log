@@ -3,6 +3,42 @@ import { Image } from "@nextui-org/react";
 import { Post } from "@/app/api/model";
 import TagList from "./components/tag-list";
 import PostDetail from "./components/post";
+import { seo } from "@/app/seo";
+import dayjs from "dayjs";
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const { id } = params;
+  const { data }: { data: Post } = await fetch(
+    `${process.env.API_PATH}/api/posts/${id}?published=1`,
+    {
+      next: { revalidate: 60 * 30 },
+    }
+  ).then((res) => res.json());
+  return {
+    title: data.title ?? "NextUI Blog",
+    description: data.desc ?? "NextUI Blog",
+    openGraph: {
+      title: {
+        default: "Barry Song's Blog",
+        template: "%s | Barry Song的小宇宙",
+      },
+      description: "探索宇宙，永葆青春",
+      siteName: "Barry Song's Blog",
+      locale: "zh_CN",
+      type: "article",
+      images: [
+        {
+          url: `${process.env.API_PATH}/api/og?title=${
+            data?.title
+          }&date=${dayjs(data?.updatedAt).format("YYYY-MM-DD")}`,
+        },
+      ],
+      url: "https://www.barrysong4real.cc/",
+    },
+    twitter: {
+      ...seo.twitter,
+    },
+  };
+}
 export interface BlogDetailProps {
   params: { id: string };
 }
@@ -11,7 +47,7 @@ const BlogDetail: FC<BlogDetailProps> = async ({ params }) => {
   const { data }: { data: Post } = await fetch(
     `${process.env.API_PATH}/api/posts/${id}?published=1`,
     {
-      cache: "no-store",
+      next: { revalidate: 60 * 30 },
     }
   ).then((res) => res.json());
 
